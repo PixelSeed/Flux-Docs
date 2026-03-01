@@ -1,0 +1,2823 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="一个强大的、可定制的 Maya 浮动工具箱和标记菜单系统。">
+      
+      
+        <meta name="author" content="PixelSeed">
+      
+      
+        <link rel="canonical" href="https://<your-username>.github.io/MayaTool/OPTIMIZATION_REPORT/">
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.3">
+    
+    
+      
+        <title>Floating Toolbox 优化报告与建议 - Maya Floating Toolbox</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="deep-purple" data-md-color-accent="deep-purple">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#floating-toolbox" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href=".." title="Maya Floating Toolbox" class="md-header__button md-logo" aria-label="Maya Floating Toolbox" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Maya Floating Toolbox
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Floating Toolbox 优化报告与建议
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="deep-purple" data-md-color-accent="deep-purple"  aria-label="切换到深色模式"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="切换到深色模式" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="deep-purple" data-md-color-accent="deep-purple"  aria-label="切换到浅色模式"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="切换到浅色模式" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="标签" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href=".." class="md-tabs__link">
+        
+  
+  
+    
+  
+  首页
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../features/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  核心特性
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../installation/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  安装指南
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../usage/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  使用教程
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../faq/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  常见问题
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Maya Floating Toolbox" class="md-nav__button md-logo" aria-label="Maya Floating Toolbox" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Maya Floating Toolbox
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    首页
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../features/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    核心特性
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../installation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    安装指南
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../usage/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    使用教程
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../faq/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    常见问题
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        目录
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        一、项目总览
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="一、项目总览">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.1 架构概述
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#12" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.2 数据流向
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#13" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1.3 审查范围
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bugp0" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        二、致命级 Bug（P0）
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="二、致命级 Bug（P0）">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 安装脚本完全无法工作
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2 一个坏文件杀死整个工具箱
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23-viewmodel-undo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.3 ViewModel 导入路径错误，Undo 功能全部失效
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#24-full_panelpy-docked_panelpy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.4 full_panel.py 和 docked_panel.py 存在完整代码重复
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#25-shelf-button" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.5 Shelf Button 命令导致插件加载两次
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#p1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        三、架构层面优化（P1）
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="三、架构层面优化（P1）">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1 配置系统：非原子写入导致数据丢失风险
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2 节流保存机制有数据丢失漏洞
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33-close_toolbox" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3 close_toolbox() 不刷新挂起的保存
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#34-viewmodel-toolmanager" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.4 ViewModel 绕过 ToolManager 导致数据不一致
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#35" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.5 单例模式的可测试性问题
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#36-configmanager" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.6 两个 ConfigManager 命名冲突
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#p2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        四、代码质量问题（P2） ✅ 已全部修复
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="四、代码质量问题（P2） ✅ 已全部修复">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41-toolmodel" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1 ToolModel 类型声明与实际使用不一致
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42-toolmodel" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2 ToolModel 缺少输入验证
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#43-runtimetool" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.3 RuntimeTool 注释过时
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#44-3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.4 路径计算重复 3 次
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#45-lambda" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.5 Lambda 闭包的隐患
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#46-except" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.6 裸 except: 吞掉所有异常
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#47-mainpy-print-logger-p1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.7 main.py 使用 print 而非 logger ✅ 已在 P1 阶段修复
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#48-mainpy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.8 main.py 访问私有成员 ✅ 已修复
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#49-viewmodel" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.9 ViewModel 重复懒加载导入
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#410-quickpanel" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.10 QuickPanel 性能问题 ✅ 已修复
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#411-controller" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.11 Controller 面板位置不检测屏幕边界
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        五、功能增强建议
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="五、功能增强建议">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#51-idlepanel" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.1 保存提醒功能（IdlePanel 扩展）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#52" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.2 工具导出/导入系统
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#53" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.3 工具使用统计面板
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#54" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.4 工具搜索增强
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#55" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5.5 用户代码安全检查
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#uiux" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        六、UI/UX 优化建议
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="六、UI/UX 优化建议">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#61-dpi" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.1 DPI/高分屏适配 ✅ 已修复
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#62" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.2 跨平台字体兼容 ✅ 已修复
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#63" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.3 面板状态机改进 ⏭ 暂缓（当前逻辑够用，避免过度设计）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#64" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.4 键盘导航支持
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#65" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.5 颜色对比度
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#66" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.6 设置按钮是空实现
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        七、测试覆盖分析
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="七、测试覆盖分析">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#71" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.1 现有测试（优秀基础）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#72" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.2 缺失的测试覆盖
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#73" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.3 可能失败的测试
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#74" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.4 建议添加的关键测试
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#75" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7.5 测试运行配置
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        八、开源发布准备
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="八、开源发布准备">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#81" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.1 文档更新
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#82" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.2 必需的开源文件
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#83-readmemd" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.3 README.md 建议结构
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#84" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8.4 开源协议选择
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        九、商业策略建议
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="九、商业策略建议">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#91-vs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.1 开源核心 vs 增值服务
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#92" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.2 品牌建设路径
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#93" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.3 课程推广与工具的协同效应
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#94" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9.4 差异化竞争优势
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        十、优先级总表
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="十、优先级总表">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#p0" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        P0 — 致命（阻塞发布）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#p1_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        P1 — 严重（影响稳定性）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#p2_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        P2 — 中等（影响体验）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#p3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        P3 — 建议（长期优化）
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        附录
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="附录">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#a" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        A. 安全审查清单
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#b" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        B. 发布前检查清单
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#c-maya" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        C. Maya 版本兼容性矩阵
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="floating-toolbox">Floating Toolbox 优化报告与建议<a class="headerlink" href="#floating-toolbox" title="Permanent link">&para;</a></h1>
+<blockquote>
+<p>版本：v1.0<br />
+日期：2026-02-12<br />
+编写者：架构审查<br />
+状态：待执行</p>
+</blockquote>
+<hr />
+<h2 id="_1">目录<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+<ul>
+<li><a href="#一项目总览">一、项目总览</a></li>
+<li><a href="#二致命级-bugp0">二、致命级 Bug（P0）</a></li>
+<li><a href="#三架构层面优化p1">三、架构层面优化（P1）</a></li>
+<li><a href="#四代码质量问题p2">四、代码质量问题（P2）</a></li>
+<li><a href="#五功能增强建议">五、功能增强建议</a></li>
+<li><a href="#六uiux-优化建议">六、UI/UX 优化建议</a></li>
+<li><a href="#七测试覆盖分析">七、测试覆盖分析</a></li>
+<li><a href="#八开源发布准备">八、开源发布准备</a></li>
+<li><a href="#九商业策略建议">九、商业策略建议</a></li>
+<li><a href="#十优先级总表">十、优先级总表</a></li>
+</ul>
+<hr />
+<h2 id="_2">一、项目总览<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<h3 id="11">1.1 架构概述<a class="headerlink" href="#11" title="Permanent link">&para;</a></h3>
+<p>项目采用 MVVM 架构，分层如下：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>floating_toolbox/
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>├── core/                    # Model 层：业务逻辑
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>│   ├── tool_manager.py      # 工具管理（单例）
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>│   ├── category_manager.py  # 分类管理（单例）
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>│   ├── config_manager.py    # 配置持久化（单例）
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>│   ├── tool_model.py        # 工具数据模型
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>│   ├── tool_loader.py       # 工具加载器
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>│   ├── resource_manager.py  # 资源路径解析（单例）
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>│   ├── logger.py            # 日志系统（单例）
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>│   └── maya/                # Maya 特定集成
+<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>│       ├── config.py        # UI 配置管理
+<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>│       ├── decorators.py    # @safe_execute 装饰器
+<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>│       ├── hotkey_manager.py# 快捷键管理
+<a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a>│       ├── maya_service.py  # Maya 服务层
+<a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a>│       └── menu_manager.py  # Maya 菜单集成
+<a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a>│
+<a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a>├── ui/                      # View + ViewModel 层
+<a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a>│   ├── toolbox_viewmodel.py # ViewModel
+<a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a>│   ├── tool_creator_viewmodel.py
+<a id="__codelineno-0-20" name="__codelineno-0-20" href="#__codelineno-0-20"></a>│   ├── toolbox_controller.py# 面板状态控制器
+<a id="__codelineno-0-21" name="__codelineno-0-21" href="#__codelineno-0-21"></a>│   ├── panels/              # View：面板组件
+<a id="__codelineno-0-22" name="__codelineno-0-22" href="#__codelineno-0-22"></a>│   │   ├── base_panel.py
+<a id="__codelineno-0-23" name="__codelineno-0-23" href="#__codelineno-0-23"></a>│   │   ├── idle_panel.py    # 浮动球（待机状态）
+<a id="__codelineno-0-24" name="__codelineno-0-24" href="#__codelineno-0-24"></a>│   │   ├── quick_panel.py   # 快捷面板
+<a id="__codelineno-0-25" name="__codelineno-0-25" href="#__codelineno-0-25"></a>│   │   ├── full_panel.py    # 完整工具面板
+<a id="__codelineno-0-26" name="__codelineno-0-26" href="#__codelineno-0-26"></a>│   │   ├── docked_panel.py  # 停靠面板
+<a id="__codelineno-0-27" name="__codelineno-0-27" href="#__codelineno-0-27"></a>│   │   └── panel_animation.py
+<a id="__codelineno-0-28" name="__codelineno-0-28" href="#__codelineno-0-28"></a>│   ├── widgets/             # View：可复用组件
+<a id="__codelineno-0-29" name="__codelineno-0-29" href="#__codelineno-0-29"></a>│   └── styles.py / theme.py # 样式系统
+<a id="__codelineno-0-30" name="__codelineno-0-30" href="#__codelineno-0-30"></a>│
+<a id="__codelineno-0-31" name="__codelineno-0-31" href="#__codelineno-0-31"></a>├── marking_menu/            # 标记菜单子系统
+<a id="__codelineno-0-32" name="__codelineno-0-32" href="#__codelineno-0-32"></a>├── tools/                   # 工具定义
+<a id="__codelineno-0-33" name="__codelineno-0-33" href="#__codelineno-0-33"></a>├── config/                  # 配置文件
+<a id="__codelineno-0-34" name="__codelineno-0-34" href="#__codelineno-0-34"></a>└── resources/               # 图标资源
+</code></pre></div>
+<h3 id="12">1.2 数据流向<a class="headerlink" href="#12" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>用户点击工具
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>  → Panel (View) 捕获事件
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>    → ToolboxViewModel 处理逻辑
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>      → ToolManager 执行工具
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>        → MayaService.undo_chunk() + callback()
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>          → Maya cmds 执行
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>      → ToolManager.save_config()（节流保存）
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>    → ViewModel 发射信号
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>  → Panel (View) 更新显示
+</code></pre></div>
+<h3 id="13">1.3 审查范围<a class="headerlink" href="#13" title="Permanent link">&para;</a></h3>
+<p>本次审查覆盖以下核心文件：</p>
+<table>
+<thead>
+<tr>
+<th>文件</th>
+<th>行数</th>
+<th>职责</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>core/tool_manager.py</code></td>
+<td>~850</td>
+<td>工具注册、执行、持久化</td>
+</tr>
+<tr>
+<td><code>core/config_manager.py</code></td>
+<td>~140</td>
+<td>JSON 配置读写</td>
+</tr>
+<tr>
+<td><code>core/tool_model.py</code></td>
+<td>~40</td>
+<td>工具数据模型</td>
+</tr>
+<tr>
+<td><code>core/tool_loader.py</code></td>
+<td>~400</td>
+<td>工具文件扫描加载</td>
+</tr>
+<tr>
+<td><code>ui/toolbox_viewmodel.py</code></td>
+<td>~493</td>
+<td>MVVM ViewModel</td>
+</tr>
+<tr>
+<td><code>ui/toolbox_controller.py</code></td>
+<td>~180</td>
+<td>面板状态管理</td>
+</tr>
+<tr>
+<td><code>ui/panels/full_panel.py</code></td>
+<td>~1810</td>
+<td>完整工具面板</td>
+</tr>
+<tr>
+<td><code>ui/panels/docked_panel.py</code></td>
+<td>~1842</td>
+<td>停靠工具面板</td>
+</tr>
+<tr>
+<td><code>main.py</code></td>
+<td>~190</td>
+<td>入口与初始化</td>
+</tr>
+<tr>
+<td><code>install.py</code></td>
+<td>~1000+</td>
+<td>安装脚本</td>
+</tr>
+<tr>
+<td><code>tests/</code></td>
+<td>5个文件</td>
+<td>单元测试</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="bugp0">二、致命级 Bug（P0）<a class="headerlink" href="#bugp0" title="Permanent link">&para;</a></h2>
+<blockquote>
+<p>这些问题会直接导致插件无法安装、崩溃或核心功能失效，必须在发布前修复。</p>
+</blockquote>
+<h3 id="21">2.1 安装脚本完全无法工作<a class="headerlink" href="#21" title="Permanent link">&para;</a></h3>
+<p><strong>文件</strong>：<code>install.py</code> 第321行</p>
+<p><strong>问题</strong>：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1"># 当前代码（错误）</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>    <span class="n">mod_content</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a><span class="c1"># 正确代码</span>
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">template_mod_path</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>    <span class="n">mod_content</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+</code></pre></div>
+<p><strong>影响</strong>：安装永远会失败，抛出 <code>FileNotFoundError: [Errno 2] No such file or directory: 'r'</code>。作为开源工具，安装是用户的第一个接触点，这个 Bug 会直接劝退所有人。</p>
+<p><strong>修复方案</strong>：将 <code>r'r'</code> 改为 <code>template_mod_path</code>。</p>
+<hr />
+<h3 id="22">2.2 一个坏文件杀死整个工具箱<a class="headerlink" href="#22" title="Permanent link">&para;</a></h3>
+<p><strong>文件</strong>：<code>core/tool_loader.py</code> 第207-213行、第259-263行</p>
+<p><strong>问题</strong>：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="c1"># _load_python_tool 和 _load_json_tool 中</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>    <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;解析工具失败 </span><span class="si">{</span><span class="n">path</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>    <span class="k">raise</span> <span class="n">e</span>  <span class="c1"># ← 重新抛出异常，导致整个 scan_directory() 崩溃</span>
+</code></pre></div>
+<p>调用链：
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>scan_directory()
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>  → _load_advanced_tools() / _load_user_tools()  # 不捕获异常
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>    → _load_python_tool() / _load_json_tool()     # raise e
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>      → 整个工具加载过程中断，所有工具都不可用
+</code></pre></div></p>
+<p><strong>影响</strong>：用户如果有一个损坏的 JSON 工具文件，整个工具箱的所有工具都无法加载。</p>
+<p><strong>修复方案</strong>：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="c1"># 方案1：在 _load_python_tool / _load_json_tool 中不再 raise</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>    <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;解析工具失败 </span><span class="si">{</span><span class="n">path</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>    <span class="k">return</span> <span class="kc">None</span>  <span class="c1"># 跳过此工具，继续加载其他工具</span>
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a>
+<a id="__codelineno-5-6" name="__codelineno-5-6" href="#__codelineno-5-6"></a><span class="c1"># 方案2：在调用方 _load_advanced_tools / _load_user_tools 中捕获</span>
+<a id="__codelineno-5-7" name="__codelineno-5-7" href="#__codelineno-5-7"></a><span class="k">for</span> <span class="n">tool_file</span> <span class="ow">in</span> <span class="n">tool_files</span><span class="p">:</span>
+<a id="__codelineno-5-8" name="__codelineno-5-8" href="#__codelineno-5-8"></a>    <span class="k">try</span><span class="p">:</span>
+<a id="__codelineno-5-9" name="__codelineno-5-9" href="#__codelineno-5-9"></a>        <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_load_python_tool</span><span class="p">(</span><span class="n">tool_file</span><span class="p">)</span>
+<a id="__codelineno-5-10" name="__codelineno-5-10" href="#__codelineno-5-10"></a>        <span class="k">if</span> <span class="n">result</span><span class="p">:</span>
+<a id="__codelineno-5-11" name="__codelineno-5-11" href="#__codelineno-5-11"></a>            <span class="n">tools</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+<a id="__codelineno-5-12" name="__codelineno-5-12" href="#__codelineno-5-12"></a>    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+<a id="__codelineno-5-13" name="__codelineno-5-13" href="#__codelineno-5-13"></a>        <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;跳过损坏的工具: </span><span class="si">{</span><span class="n">tool_file</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<a id="__codelineno-5-14" name="__codelineno-5-14" href="#__codelineno-5-14"></a>        <span class="k">continue</span>
+</code></pre></div>
+<hr />
+<h3 id="23-viewmodel-undo">2.3 ViewModel 导入路径错误，Undo 功能全部失效<a class="headerlink" href="#23-viewmodel-undo" title="Permanent link">&para;</a></h3>
+<p><strong>文件</strong>：<code>ui/toolbox_viewmodel.py</code> 第186行</p>
+<p><strong>问题</strong>：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="c1"># 当前代码（错误路径）</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">floating_toolbox.maya.maya_service</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_maya_service</span>
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="c1"># 正确路径</span>
+<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="kn">from</span><span class="w"> </span><span class="nn">floating_toolbox.core.maya.maya_service</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_maya_service</span>
+</code></pre></div>
+<p><strong>影响</strong>：由于 <code>ImportError</code> 被静默捕获，所有工具执行都走 <code>except ImportError</code> 分支，即<strong>不使用 Maya Undo Chunk 执行</strong>。用户会发现每个工具操作都无法撤销（Ctrl+Z 无效），这是一个严重的用户体验问题。</p>
+<p><strong>修复方案</strong>：修正导入路径为 <code>floating_toolbox.core.maya.maya_service</code>。</p>
+<hr />
+<h3 id="24-full_panelpy-docked_panelpy">2.4 full_panel.py 和 docked_panel.py 存在完整代码重复<a class="headerlink" href="#24-full_panelpy-docked_panelpy" title="Permanent link">&para;</a></h3>
+<p><strong>文件</strong>：
+- <code>ui/panels/full_panel.py</code>（~1810行）
+- <code>ui/panels/docked_panel.py</code>（~1842行）</p>
+<p><strong>问题</strong>：两个文件中，整个类的内容被复制了两遍。<code>full_panel.py</code> 的 295-968行和 973-1810行几乎完全相同。<code>docked_panel.py</code> 存在同样问题。</p>
+<p><strong>更严重的是</strong>，<code>docked_panel.py</code> 第二个副本中的 <code>get_maya_main_window()</code> 使用了未定义的 <code>wrapInstance</code>：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="c1"># 第二个副本（约第1611行）— 会崩溃</span>
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="k">return</span> <span class="n">wrapInstance</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">main_window_ptr</span><span class="p">),</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QWidget</span><span class="p">)</span>
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="c1"># 第一个副本（正确） — 使用 QtCompat</span>
+<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="k">return</span> <span class="n">QtCompat</span><span class="o">.</span><span class="n">wrapInstance</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">main_window_ptr</span><span class="p">),</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QWidget</span><span class="p">)</span>
+</code></pre></div>
+<p><strong>影响</strong>：
+- Python 会使用文件中最后一个类定义，第一个正确的定义可能被覆盖
+- 第二个副本中的错误代码可能在运行时触发崩溃
+- 代码维护成本翻倍，修一个 Bug 需要改两处</p>
+<p><strong>修复方案</strong>：
+1. 删除两个文件中的重复代码块（保留第一个正确的版本）
+2. 提取 FullPanel 和 DockedPanel 的共享代码（约70%相同）到一个 <code>ToolPanelMixin</code> 中</p>
+<hr />
+<h3 id="25-shelf-button">2.5 Shelf Button 命令导致插件加载两次<a class="headerlink" href="#25-shelf-button" title="Permanent link">&para;</a></h3>
+<p><strong>文件</strong>：<code>install.py</code> 第625-657行</p>
+<p><strong>问题</strong>：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="n">command</span><span class="o">=</span><span class="s2">&quot;&quot;&quot;from floating_toolbox import show_toolbox</span>
+<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a><span class="s2">from floating_toolbox.core.tool_manager import ToolManager</span>
+<a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="s2">manager = ToolManager()</span>
+<a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="s2">manager.load_plugins()   # ← 冗余！show_toolbox() 内部已经会调用</span>
+<a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="s2">show_toolbox()&quot;&quot;&quot;</span>
+</code></pre></div>
+<p><strong>影响</strong>：<code>show_toolbox()</code> → <code>ToolboxViewModel()</code> → <code>ToolManager()</code> → <code>load_plugins()</code> 已经完成了完整初始化流程。额外的 <code>load_plugins()</code> 调用会导致所有工具被<strong>注册两次</strong>。</p>
+<p><strong>修复方案</strong>：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="n">command</span><span class="o">=</span><span class="s2">&quot;&quot;&quot;from floating_toolbox import show_toolbox</span>
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="s2">show_toolbox()&quot;&quot;&quot;</span>
+</code></pre></div>
+<hr />
+<h2 id="p1">三、架构层面优化（P1）<a class="headerlink" href="#p1" title="Permanent link">&para;</a></h2>
+<h3 id="31">3.1 配置系统：非原子写入导致数据丢失风险<a class="headerlink" href="#31" title="Permanent link">&para;</a></h3>
+<p><strong>文件</strong>：<code>core/config_manager.py</code> 第123-137行</p>
+<p><strong>当前问题</strong>：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="k">def</span><span class="w"> </span><span class="nf">save_config</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config_data</span><span class="p">):</span>
+<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_config_path</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+<a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>        <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">config_data</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">ensure_ascii</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</code></pre></div>
+<p>如果 Maya 在 <code>json.dump</code> 过程中崩溃（这在 Maya 中非常常见），JSON 文件会被截断/损坏。下次启动时 <code>load_config</code> 返回 <code>{}</code>，用户丢失所有收藏、快捷键、使用统计数据。</p>
+<p><strong>建议的修复方案</strong>：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">shutil</span>
+<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a><span class="kn">import</span><span class="w"> </span><span class="nn">tempfile</span>
+<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>
+<a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a><span class="k">def</span><span class="w"> </span><span class="nf">save_config</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config_data</span><span class="p">):</span>
+<a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;原子写入 + 自动备份&quot;&quot;&quot;</span>
+<a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a>    <span class="n">config_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_config_path</span><span class="p">)</span>
+<a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a>    <span class="n">backup_path</span> <span class="o">=</span> <span class="n">config_path</span><span class="o">.</span><span class="n">with_suffix</span><span class="p">(</span><span class="s1">&#39;.bak&#39;</span><span class="p">)</span>
+<a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a>
+<a id="__codelineno-11-9" name="__codelineno-11-9" href="#__codelineno-11-9"></a>    <span class="c1"># 1. 写入临时文件</span>
+<a id="__codelineno-11-10" name="__codelineno-11-10" href="#__codelineno-11-10"></a>    <span class="n">tmp_fd</span><span class="p">,</span> <span class="n">tmp_path</span> <span class="o">=</span> <span class="n">tempfile</span><span class="o">.</span><span class="n">mkstemp</span><span class="p">(</span>
+<a id="__codelineno-11-11" name="__codelineno-11-11" href="#__codelineno-11-11"></a>        <span class="nb">dir</span><span class="o">=</span><span class="n">config_path</span><span class="o">.</span><span class="n">parent</span><span class="p">,</span> <span class="n">suffix</span><span class="o">=</span><span class="s1">&#39;.tmp&#39;</span>
+<a id="__codelineno-11-12" name="__codelineno-11-12" href="#__codelineno-11-12"></a>    <span class="p">)</span>
+<a id="__codelineno-11-13" name="__codelineno-11-13" href="#__codelineno-11-13"></a>    <span class="k">try</span><span class="p">:</span>
+<a id="__codelineno-11-14" name="__codelineno-11-14" href="#__codelineno-11-14"></a>        <span class="k">with</span> <span class="n">os</span><span class="o">.</span><span class="n">fdopen</span><span class="p">(</span><span class="n">tmp_fd</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+<a id="__codelineno-11-15" name="__codelineno-11-15" href="#__codelineno-11-15"></a>            <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">config_data</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">ensure_ascii</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<a id="__codelineno-11-16" name="__codelineno-11-16" href="#__codelineno-11-16"></a>
+<a id="__codelineno-11-17" name="__codelineno-11-17" href="#__codelineno-11-17"></a>        <span class="c1"># 2. 备份当前配置</span>
+<a id="__codelineno-11-18" name="__codelineno-11-18" href="#__codelineno-11-18"></a>        <span class="k">if</span> <span class="n">config_path</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+<a id="__codelineno-11-19" name="__codelineno-11-19" href="#__codelineno-11-19"></a>            <span class="n">shutil</span><span class="o">.</span><span class="n">copy2</span><span class="p">(</span><span class="n">config_path</span><span class="p">,</span> <span class="n">backup_path</span><span class="p">)</span>
+<a id="__codelineno-11-20" name="__codelineno-11-20" href="#__codelineno-11-20"></a>
+<a id="__codelineno-11-21" name="__codelineno-11-21" href="#__codelineno-11-21"></a>        <span class="c1"># 3. 原子替换（Windows 上 os.replace 是原子的）</span>
+<a id="__codelineno-11-22" name="__codelineno-11-22" href="#__codelineno-11-22"></a>        <span class="n">os</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">tmp_path</span><span class="p">,</span> <span class="n">config_path</span><span class="p">)</span>
+<a id="__codelineno-11-23" name="__codelineno-11-23" href="#__codelineno-11-23"></a>    <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+<a id="__codelineno-11-24" name="__codelineno-11-24" href="#__codelineno-11-24"></a>        <span class="c1"># 清理临时文件</span>
+<a id="__codelineno-11-25" name="__codelineno-11-25" href="#__codelineno-11-25"></a>        <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">tmp_path</span><span class="p">):</span>
+<a id="__codelineno-11-26" name="__codelineno-11-26" href="#__codelineno-11-26"></a>            <span class="n">os</span><span class="o">.</span><span class="n">unlink</span><span class="p">(</span><span class="n">tmp_path</span><span class="p">)</span>
+<a id="__codelineno-11-27" name="__codelineno-11-27" href="#__codelineno-11-27"></a>        <span class="k">raise</span>
+<a id="__codelineno-11-28" name="__codelineno-11-28" href="#__codelineno-11-28"></a>
+<a id="__codelineno-11-29" name="__codelineno-11-29" href="#__codelineno-11-29"></a><span class="k">def</span><span class="w"> </span><span class="nf">load_config</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<a id="__codelineno-11-30" name="__codelineno-11-30" href="#__codelineno-11-30"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;加载配置，损坏时自动恢复备份&quot;&quot;&quot;</span>
+<a id="__codelineno-11-31" name="__codelineno-11-31" href="#__codelineno-11-31"></a>    <span class="k">try</span><span class="p">:</span>
+<a id="__codelineno-11-32" name="__codelineno-11-32" href="#__codelineno-11-32"></a>        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_config_path</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+<a id="__codelineno-11-33" name="__codelineno-11-33" href="#__codelineno-11-33"></a>            <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+<a id="__codelineno-11-34" name="__codelineno-11-34" href="#__codelineno-11-34"></a>    <span class="k">except</span> <span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">JSONDecodeError</span><span class="p">,</span> <span class="ne">FileNotFoundError</span><span class="p">):</span>
+<a id="__codelineno-11-35" name="__codelineno-11-35" href="#__codelineno-11-35"></a>        <span class="n">backup_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_config_path</span><span class="p">)</span><span class="o">.</span><span class="n">with_suffix</span><span class="p">(</span><span class="s1">&#39;.bak&#39;</span><span class="p">)</span>
+<a id="__codelineno-11-36" name="__codelineno-11-36" href="#__codelineno-11-36"></a>        <span class="k">if</span> <span class="n">backup_path</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+<a id="__codelineno-11-37" name="__codelineno-11-37" href="#__codelineno-11-37"></a>            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;配置文件损坏，正在从备份恢复...&quot;</span><span class="p">)</span>
+<a id="__codelineno-11-38" name="__codelineno-11-38" href="#__codelineno-11-38"></a>            <span class="n">shutil</span><span class="o">.</span><span class="n">copy2</span><span class="p">(</span><span class="n">backup_path</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_config_path</span><span class="p">)</span>
+<a id="__codelineno-11-39" name="__codelineno-11-39" href="#__codelineno-11-39"></a>            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_config_path</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+<a id="__codelineno-11-40" name="__codelineno-11-40" href="#__codelineno-11-40"></a>                <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+<a id="__codelineno-11-41" name="__codelineno-11-41" href="#__codelineno-11-41"></a>        <span class="k">return</span> <span class="p">{}</span>
+</code></pre></div>
+<hr />
+<h3 id="32">3.2 节流保存机制有数据丢失漏洞<a class="headerlink" href="#32" title="Permanent link">&para;</a></h3>
+<p><strong>文件</strong>：<code>core/tool_manager.py</code> 第529-556行</p>
+<p><strong>当前问题</strong>：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="k">def</span><span class="w"> </span><span class="nf">save_config</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_pending_save</span><span class="p">:</span>
+<a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>        <span class="k">return</span>              <span class="c1"># ← 新的修改被丢弃！</span>
+<a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a>    <span class="bp">self</span><span class="o">.</span><span class="n">_pending_save</span> <span class="o">=</span> <span class="kc">True</span>
+<a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a>    <span class="n">QTimer</span><span class="o">.</span><span class="n">singleShot</span><span class="p">(</span><span class="mi">500</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_do_save_config</span><span class="p">)</span>
+</code></pre></div>
+<p>时间线：
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>T=0ms   save_config() → _pending_save=True, 启动500ms定时器
+<a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>T=100ms 用户修改了工具 → save_config() → _pending_save已为True, 直接return
+<a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a>T=200ms 用户又修改了工具 → save_config() → 同样被跳过
+<a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a>T=500ms 定时器触发 _do_save_config() → 保存的是T=0ms时的状态！
+<a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a>         T=100ms和T=200ms的修改丢失了
+</code></pre></div></p>
+<p><strong>建议的修复方案</strong>：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="k">def</span><span class="w"> </span><span class="nf">save_config</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;保存配置（重置定时器策略）&quot;&quot;&quot;</span>
+<a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a>    <span class="bp">self</span><span class="o">.</span><span class="n">_dirty</span> <span class="o">=</span> <span class="kc">True</span>
+<a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a>
+<a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a>    <span class="c1"># 取消已有定时器，重新计时</span>
+<a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a>    <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s1">&#39;_save_timer&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_save_timer</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+<a id="__codelineno-14-7" name="__codelineno-14-7" href="#__codelineno-14-7"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">_save_timer</span><span class="o">.</span><span class="n">stop</span><span class="p">()</span>
+<a id="__codelineno-14-8" name="__codelineno-14-8" href="#__codelineno-14-8"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">_save_timer</span><span class="o">.</span><span class="n">deleteLater</span><span class="p">()</span>
+<a id="__codelineno-14-9" name="__codelineno-14-9" href="#__codelineno-14-9"></a>
+<a id="__codelineno-14-10" name="__codelineno-14-10" href="#__codelineno-14-10"></a>    <span class="k">try</span><span class="p">:</span>
+<a id="__codelineno-14-11" name="__codelineno-14-11" href="#__codelineno-14-11"></a>        <span class="kn">from</span><span class="w"> </span><span class="nn">Qt</span><span class="w"> </span><span class="kn">import</span> <span class="n">QtCore</span>
+<a id="__codelineno-14-12" name="__codelineno-14-12" href="#__codelineno-14-12"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">_save_timer</span> <span class="o">=</span> <span class="n">QtCore</span><span class="o">.</span><span class="n">QTimer</span><span class="p">()</span>
+<a id="__codelineno-14-13" name="__codelineno-14-13" href="#__codelineno-14-13"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">_save_timer</span><span class="o">.</span><span class="n">setSingleShot</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+<a id="__codelineno-14-14" name="__codelineno-14-14" href="#__codelineno-14-14"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">_save_timer</span><span class="o">.</span><span class="n">timeout</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_do_save_config</span><span class="p">)</span>
+<a id="__codelineno-14-15" name="__codelineno-14-15" href="#__codelineno-14-15"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">_save_timer</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_save_delay_ms</span><span class="p">)</span>
+<a id="__codelineno-14-16" name="__codelineno-14-16" href="#__codelineno-14-16"></a>    <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+<a id="__codelineno-14-17" name="__codelineno-14-17" href="#__codelineno-14-17"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">_do_save_config</span><span class="p">()</span>
+<a id="__codelineno-14-18" name="__codelineno-14-18" href="#__codelineno-14-18"></a>
+<a id="__codelineno-14-19" name="__codelineno-14-19" href="#__codelineno-14-19"></a><span class="k">def</span><span class="w"> </span><span class="nf">_do_save_config</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<a id="__codelineno-14-20" name="__codelineno-14-20" href="#__codelineno-14-20"></a>    <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_dirty</span><span class="p">:</span>
+<a id="__codelineno-14-21" name="__codelineno-14-21" href="#__codelineno-14-21"></a>        <span class="k">return</span>
+<a id="__codelineno-14-22" name="__codelineno-14-22" href="#__codelineno-14-22"></a>    <span class="bp">self</span><span class="o">.</span><span class="n">_dirty</span> <span class="o">=</span> <span class="kc">False</span>
+<a id="__codelineno-14-23" name="__codelineno-14-23" href="#__codelineno-14-23"></a>    <span class="c1"># ... 保存当前最新状态 ...</span>
+</code></pre></div>
+<hr />
+<h3 id="33-close_toolbox">3.3 close_toolbox() 不刷新挂起的保存<a class="headerlink" href="#33-close_toolbox" title="Permanent link">&para;</a></h3>
+<p><strong>文件</strong>：<code>main.py</code> 第149-186行</p>
+<p><strong>当前问题</strong>：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="k">def</span><span class="w"> </span><span class="nf">close_toolbox</span><span class="p">():</span>
+<a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a>    <span class="k">if</span> <span class="n">_toolbox_controller</span><span class="p">:</span>
+<a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a>        <span class="n">_toolbox_controller</span><span class="o">.</span><span class="n">close_all</span><span class="p">()</span>
+<a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a>    <span class="n">_close_all_toolbox_windows</span><span class="p">()</span>
+<a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a>    <span class="n">_toolbox_controller</span> <span class="o">=</span> <span class="kc">None</span>
+<a id="__codelineno-15-6" name="__codelineno-15-6" href="#__codelineno-15-6"></a>    <span class="c1"># ← 没有调用 save_config_immediate()</span>
+</code></pre></div>
+<p><strong>影响</strong>：如果用户在关闭前有未保存的修改（在500ms节流窗口内），这些修改会随着 QTimer 的销毁而永久丢失。</p>
+<p><strong>修复方案</strong>：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="k">def</span><span class="w"> </span><span class="nf">close_toolbox</span><span class="p">():</span>
+<a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a>    <span class="k">global</span> <span class="n">_toolbox_controller</span>
+<a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a>
+<a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a>    <span class="c1"># 刷新所有挂起的保存</span>
+<a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a>    <span class="k">try</span><span class="p">:</span>
+<a id="__codelineno-16-6" name="__codelineno-16-6" href="#__codelineno-16-6"></a>        <span class="kn">from</span><span class="w"> </span><span class="nn">floating_toolbox.core.tool_manager</span><span class="w"> </span><span class="kn">import</span> <span class="n">ToolManager</span>
+<a id="__codelineno-16-7" name="__codelineno-16-7" href="#__codelineno-16-7"></a>        <span class="n">tm</span> <span class="o">=</span> <span class="n">ToolManager</span><span class="p">()</span>
+<a id="__codelineno-16-8" name="__codelineno-16-8" href="#__codelineno-16-8"></a>        <span class="n">tm</span><span class="o">.</span><span class="n">save_config_immediate</span><span class="p">()</span>
+<a id="__codelineno-16-9" name="__codelineno-16-9" href="#__codelineno-16-9"></a>    <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+<a id="__codelineno-16-10" name="__codelineno-16-10" href="#__codelineno-16-10"></a>        <span class="k">pass</span>
+<a id="__codelineno-16-11" name="__codelineno-16-11" href="#__codelineno-16-11"></a>
+<a id="__codelineno-16-12" name="__codelineno-16-12" href="#__codelineno-16-12"></a>    <span class="k">if</span> <span class="n">_toolbox_controller</span><span class="p">:</span>
+<a id="__codelineno-16-13" name="__codelineno-16-13" href="#__codelineno-16-13"></a>        <span class="n">_toolbox_controller</span><span class="o">.</span><span class="n">close_all</span><span class="p">()</span>
+<a id="__codelineno-16-14" name="__codelineno-16-14" href="#__codelineno-16-14"></a>    <span class="n">_close_all_toolbox_windows</span><span class="p">()</span>
+<a id="__codelineno-16-15" name="__codelineno-16-15" href="#__codelineno-16-15"></a>    <span class="n">_toolbox_controller</span> <span class="o">=</span> <span class="kc">None</span>
+</code></pre></div>
+<hr />
+<h3 id="34-viewmodel-toolmanager">3.4 ViewModel 绕过 ToolManager 导致数据不一致<a class="headerlink" href="#34-viewmodel-toolmanager" title="Permanent link">&para;</a></h3>
+<p><strong>文件</strong>：<code>ui/toolbox_viewmodel.py</code></p>
+<p><strong>问题1：rename_category 不更新工具</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="c1"># 当前代码 — 直接调用 CategoryManager</span>
+<a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a><span class="k">def</span><span class="w"> </span><span class="nf">rename_category</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">old_name</span><span class="p">,</span> <span class="n">new_name</span><span class="p">):</span>
+<a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a>    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">category_manager</span><span class="o">.</span><span class="n">rename_category</span><span class="p">(</span><span class="n">old_name</span><span class="p">,</span> <span class="n">new_name</span><span class="p">)</span>
+<a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a>    <span class="c1"># ← 工具对象的 category 字段没有被更新！</span>
+</code></pre></div>
+<p>正确做法应该调用 <code>ToolManager.rename_category()</code>，它会同时更新所有工具的 <code>category</code> 属性。</p>
+<p><strong>问题2：delete_category 不删除工具文件</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="c1"># 当前代码 — 只删除分类记录</span>
+<a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a><span class="k">def</span><span class="w"> </span><span class="nf">delete_category</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+<a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a>    <span class="n">tools</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_tools_by_category</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+<a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a>    <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="ow">not</span> <span class="n">t</span><span class="o">.</span><span class="n">is_user_tool</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">tools</span><span class="p">):</span>
+<a id="__codelineno-18-5" name="__codelineno-18-5" href="#__codelineno-18-5"></a>        <span class="k">return</span> <span class="kc">False</span>
+<a id="__codelineno-18-6" name="__codelineno-18-6" href="#__codelineno-18-6"></a>    <span class="bp">self</span><span class="o">.</span><span class="n">category_manager</span><span class="o">.</span><span class="n">remove_category</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+<a id="__codelineno-18-7" name="__codelineno-18-7" href="#__codelineno-18-7"></a>    <span class="c1"># ← 用户工具的 JSON 文件还留在磁盘上！</span>
+</code></pre></div>
+<p>正确做法应该调用 <code>ToolManager.delete_category()</code>，它会同时删除所有关联的用户工具文件。</p>
+<p><strong>建议的修复原则</strong>：ViewModel 应该<strong>只通过 ToolManager 交互</strong>（Facade 模式），不要直接访问 CategoryManager：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a><span class="c1"># 修复后</span>
+<a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a><span class="k">def</span><span class="w"> </span><span class="nf">rename_category</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">old_name</span><span class="p">,</span> <span class="n">new_name</span><span class="p">):</span>
+<a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a>    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_tool_manager</span><span class="o">.</span><span class="n">rename_category</span><span class="p">(</span><span class="n">old_name</span><span class="p">,</span> <span class="n">new_name</span><span class="p">)</span>
+<a id="__codelineno-19-4" name="__codelineno-19-4" href="#__codelineno-19-4"></a>
+<a id="__codelineno-19-5" name="__codelineno-19-5" href="#__codelineno-19-5"></a><span class="k">def</span><span class="w"> </span><span class="nf">delete_category</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+<a id="__codelineno-19-6" name="__codelineno-19-6" href="#__codelineno-19-6"></a>    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_tool_manager</span><span class="o">.</span><span class="n">delete_category</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+</code></pre></div>
+<hr />
+<h3 id="35">3.5 单例模式的可测试性问题<a class="headerlink" href="#35" title="Permanent link">&para;</a></h3>
+<p><strong>涉及文件</strong>：ToolManager、ConfigManager、CategoryManager、ResourceManager、Logger</p>
+<p><strong>当前问题</strong>：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a><span class="k">class</span><span class="w"> </span><span class="nc">ToolManager</span><span class="p">:</span>
+<a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a>    <span class="n">_instance</span> <span class="o">=</span> <span class="kc">None</span>
+<a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
+<a id="__codelineno-20-4" name="__codelineno-20-4" href="#__codelineno-20-4"></a>        <span class="k">if</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_instance</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+<a id="__codelineno-20-5" name="__codelineno-20-5" href="#__codelineno-20-5"></a>            <span class="bp">cls</span><span class="o">.</span><span class="n">_instance</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span>
+<a id="__codelineno-20-6" name="__codelineno-20-6" href="#__codelineno-20-6"></a>            <span class="bp">cls</span><span class="o">.</span><span class="n">_instance</span><span class="o">.</span><span class="n">_initialized</span> <span class="o">=</span> <span class="kc">False</span>
+<a id="__codelineno-20-7" name="__codelineno-20-7" href="#__codelineno-20-7"></a>        <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_instance</span>
+</code></pre></div>
+<p>问题：
+- <strong>不可测试</strong>：单元测试之间状态泄漏，需要手动 <code>ToolManager._instance = None</code>
+- <strong>非线程安全</strong>：虽然 Maya 主要是单线程，但并发事件处理可能触发竞态
+- <strong>隐式依赖</strong>：组件之间的依赖关系不可见</p>
+<p><strong>长期建议（P3 优先级）</strong>：引入轻量级 Service Locator：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a><span class="k">class</span><span class="w"> </span><span class="nc">ServiceContainer</span><span class="p">:</span>
+<a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;轻量级服务容器，支持依赖注入&quot;&quot;&quot;</span>
+<a id="__codelineno-21-3" name="__codelineno-21-3" href="#__codelineno-21-3"></a>    <span class="n">_services</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">type</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+<a id="__codelineno-21-4" name="__codelineno-21-4" href="#__codelineno-21-4"></a>
+<a id="__codelineno-21-5" name="__codelineno-21-5" href="#__codelineno-21-5"></a>    <span class="nd">@classmethod</span>
+<a id="__codelineno-21-6" name="__codelineno-21-6" href="#__codelineno-21-6"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">register</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">interface</span><span class="p">:</span> <span class="nb">type</span><span class="p">,</span> <span class="n">instance</span><span class="p">:</span> <span class="n">Any</span><span class="p">):</span>
+<a id="__codelineno-21-7" name="__codelineno-21-7" href="#__codelineno-21-7"></a>        <span class="bp">cls</span><span class="o">.</span><span class="n">_services</span><span class="p">[</span><span class="n">interface</span><span class="p">]</span> <span class="o">=</span> <span class="n">instance</span>
+<a id="__codelineno-21-8" name="__codelineno-21-8" href="#__codelineno-21-8"></a>
+<a id="__codelineno-21-9" name="__codelineno-21-9" href="#__codelineno-21-9"></a>    <span class="nd">@classmethod</span>
+<a id="__codelineno-21-10" name="__codelineno-21-10" href="#__codelineno-21-10"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">get</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">interface</span><span class="p">:</span> <span class="nb">type</span><span class="p">):</span>
+<a id="__codelineno-21-11" name="__codelineno-21-11" href="#__codelineno-21-11"></a>        <span class="k">if</span> <span class="n">interface</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_services</span><span class="p">:</span>
+<a id="__codelineno-21-12" name="__codelineno-21-12" href="#__codelineno-21-12"></a>            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;服务未注册: </span><span class="si">{</span><span class="n">interface</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<a id="__codelineno-21-13" name="__codelineno-21-13" href="#__codelineno-21-13"></a>        <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_services</span><span class="p">[</span><span class="n">interface</span><span class="p">]</span>
+<a id="__codelineno-21-14" name="__codelineno-21-14" href="#__codelineno-21-14"></a>
+<a id="__codelineno-21-15" name="__codelineno-21-15" href="#__codelineno-21-15"></a>    <span class="nd">@classmethod</span>
+<a id="__codelineno-21-16" name="__codelineno-21-16" href="#__codelineno-21-16"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">reset</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
+<a id="__codelineno-21-17" name="__codelineno-21-17" href="#__codelineno-21-17"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;测试时重置所有服务&quot;&quot;&quot;</span>
+<a id="__codelineno-21-18" name="__codelineno-21-18" href="#__codelineno-21-18"></a>        <span class="bp">cls</span><span class="o">.</span><span class="n">_services</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+<a id="__codelineno-21-19" name="__codelineno-21-19" href="#__codelineno-21-19"></a>
+<a id="__codelineno-21-20" name="__codelineno-21-20" href="#__codelineno-21-20"></a><span class="c1"># 初始化时</span>
+<a id="__codelineno-21-21" name="__codelineno-21-21" href="#__codelineno-21-21"></a><span class="k">def</span><span class="w"> </span><span class="nf">bootstrap</span><span class="p">():</span>
+<a id="__codelineno-21-22" name="__codelineno-21-22" href="#__codelineno-21-22"></a>    <span class="n">config_mgr</span> <span class="o">=</span> <span class="n">ConfigManager</span><span class="p">(</span><span class="n">config_path</span><span class="o">=</span><span class="s2">&quot;...&quot;</span><span class="p">)</span>
+<a id="__codelineno-21-23" name="__codelineno-21-23" href="#__codelineno-21-23"></a>    <span class="n">category_mgr</span> <span class="o">=</span> <span class="n">CategoryManager</span><span class="p">(</span><span class="n">config_mgr</span><span class="p">)</span>
+<a id="__codelineno-21-24" name="__codelineno-21-24" href="#__codelineno-21-24"></a>    <span class="n">tool_mgr</span> <span class="o">=</span> <span class="n">ToolManager</span><span class="p">(</span><span class="n">config_mgr</span><span class="p">,</span> <span class="n">category_mgr</span><span class="p">)</span>
+<a id="__codelineno-21-25" name="__codelineno-21-25" href="#__codelineno-21-25"></a>
+<a id="__codelineno-21-26" name="__codelineno-21-26" href="#__codelineno-21-26"></a>    <span class="n">ServiceContainer</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">IConfigManager</span><span class="p">,</span> <span class="n">config_mgr</span><span class="p">)</span>
+<a id="__codelineno-21-27" name="__codelineno-21-27" href="#__codelineno-21-27"></a>    <span class="n">ServiceContainer</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">ICategoryManager</span><span class="p">,</span> <span class="n">category_mgr</span><span class="p">)</span>
+<a id="__codelineno-21-28" name="__codelineno-21-28" href="#__codelineno-21-28"></a>    <span class="n">ServiceContainer</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">IToolManager</span><span class="p">,</span> <span class="n">tool_mgr</span><span class="p">)</span>
+<a id="__codelineno-21-29" name="__codelineno-21-29" href="#__codelineno-21-29"></a>
+<a id="__codelineno-21-30" name="__codelineno-21-30" href="#__codelineno-21-30"></a><span class="c1"># 测试时</span>
+<a id="__codelineno-21-31" name="__codelineno-21-31" href="#__codelineno-21-31"></a><span class="k">def</span><span class="w"> </span><span class="nf">setup_test</span><span class="p">():</span>
+<a id="__codelineno-21-32" name="__codelineno-21-32" href="#__codelineno-21-32"></a>    <span class="n">ServiceContainer</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
+<a id="__codelineno-21-33" name="__codelineno-21-33" href="#__codelineno-21-33"></a>    <span class="n">ServiceContainer</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="n">IConfigManager</span><span class="p">,</span> <span class="n">MockConfigManager</span><span class="p">())</span>
+</code></pre></div>
+<hr />
+<h3 id="36-configmanager">3.6 两个 ConfigManager 命名冲突<a class="headerlink" href="#36-configmanager" title="Permanent link">&para;</a></h3>
+<p><strong>文件</strong>：
+- <code>core/config_manager.py</code> — 管理工具状态（收藏、使用次数等）
+- <code>core/maya/config.py</code> — 管理 UI 状态（面板位置、Pin 状态等）</p>
+<p>两者都叫 <code>ConfigManager</code>，在 ViewModel 中同时导入时容易混淆。</p>
+<p><strong>建议重命名</strong>：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a><span class="c1"># core/config_manager.py</span>
+<a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a><span class="k">class</span><span class="w"> </span><span class="nc">ToolConfigManager</span><span class="p">:</span>  <span class="c1"># 或 DataConfigManager</span>
+<a id="__codelineno-22-3" name="__codelineno-22-3" href="#__codelineno-22-3"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;管理工具状态持久化&quot;&quot;&quot;</span>
+<a id="__codelineno-22-4" name="__codelineno-22-4" href="#__codelineno-22-4"></a>
+<a id="__codelineno-22-5" name="__codelineno-22-5" href="#__codelineno-22-5"></a><span class="c1"># core/maya/config.py</span>
+<a id="__codelineno-22-6" name="__codelineno-22-6" href="#__codelineno-22-6"></a><span class="k">class</span><span class="w"> </span><span class="nc">UIConfigManager</span><span class="p">:</span>  <span class="c1"># 或 UIStateManager</span>
+<a id="__codelineno-22-7" name="__codelineno-22-7" href="#__codelineno-22-7"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;管理 UI 状态持久化&quot;&quot;&quot;</span>
+</code></pre></div>
+<hr />
+<h2 id="p2">四、代码质量问题（P2） ✅ 已全部修复<a class="headerlink" href="#p2" title="Permanent link">&para;</a></h2>
+<h3 id="41-toolmodel">4.1 ToolModel 类型声明与实际使用不一致<a class="headerlink" href="#41-toolmodel" title="Permanent link">&para;</a></h3>
+<p><strong>文件</strong>：<code>core/tool_model.py</code></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a><span class="nd">@dataclass</span>
+<a id="__codelineno-23-2" name="__codelineno-23-2" href="#__codelineno-23-2"></a><span class="k">class</span><span class="w"> </span><span class="nc">ToolModel</span><span class="p">:</span>
+<a id="__codelineno-23-3" name="__codelineno-23-3" href="#__codelineno-23-3"></a>    <span class="n">pin_time</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>    <span class="c1"># 声明为 int</span>
+<a id="__codelineno-23-4" name="__codelineno-23-4" href="#__codelineno-23-4"></a>    <span class="n">last_used</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>   <span class="c1"># 声明为 int</span>
+</code></pre></div>
+<p>但实际赋值：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a><span class="c1"># tool_manager.py</span>
+<a id="__codelineno-24-2" name="__codelineno-24-2" href="#__codelineno-24-2"></a><span class="n">tool</span><span class="o">.</span><span class="n">last_used</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">isoformat</span><span class="p">()</span>  <span class="c1"># 实际是 str</span>
+<a id="__codelineno-24-3" name="__codelineno-24-3" href="#__codelineno-24-3"></a><span class="n">tool</span><span class="o">.</span><span class="n">pin_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>                  <span class="c1"># 实际是 float</span>
+</code></pre></div>
+<p><strong>建议</strong>：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a><span class="nd">@dataclass</span>
+<a id="__codelineno-25-2" name="__codelineno-25-2" href="#__codelineno-25-2"></a><span class="k">class</span><span class="w"> </span><span class="nc">ToolModel</span><span class="p">:</span>
+<a id="__codelineno-25-3" name="__codelineno-25-3" href="#__codelineno-25-3"></a>    <span class="n">pin_time</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>     <span class="c1"># time.time() 返回 float</span>
+<a id="__codelineno-25-4" name="__codelineno-25-4" href="#__codelineno-25-4"></a>    <span class="n">last_used</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>      <span class="c1"># ISO 格式时间字符串</span>
+</code></pre></div>
+<h3 id="42-toolmodel">4.2 ToolModel 缺少输入验证<a class="headerlink" href="#42-toolmodel" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a><span class="nd">@dataclass</span>
+<a id="__codelineno-26-2" name="__codelineno-26-2" href="#__codelineno-26-2"></a><span class="k">class</span><span class="w"> </span><span class="nc">ToolModel</span><span class="p">:</span>
+<a id="__codelineno-26-3" name="__codelineno-26-3" href="#__codelineno-26-3"></a>    <span class="nb">id</span><span class="p">:</span> <span class="nb">str</span>       <span class="c1"># 允许空字符串、路径遍历字符</span>
+<a id="__codelineno-26-4" name="__codelineno-26-4" href="#__codelineno-26-4"></a>    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>     <span class="c1"># 允许空字符串</span>
+</code></pre></div>
+<p>工具 ID 后续被用于构造文件路径（<code>save_user_tool</code>），如果 ID 为 <code>"../../etc/passwd"</code> 会写到意外位置。</p>
+<p><strong>建议添加 <code>__post_init__</code> 验证</strong>：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
+<a id="__codelineno-27-2" name="__codelineno-27-2" href="#__codelineno-27-2"></a>
+<a id="__codelineno-27-3" name="__codelineno-27-3" href="#__codelineno-27-3"></a><span class="nd">@dataclass</span>
+<a id="__codelineno-27-4" name="__codelineno-27-4" href="#__codelineno-27-4"></a><span class="k">class</span><span class="w"> </span><span class="nc">ToolModel</span><span class="p">:</span>
+<a id="__codelineno-27-5" name="__codelineno-27-5" href="#__codelineno-27-5"></a>    <span class="nb">id</span><span class="p">:</span> <span class="nb">str</span>
+<a id="__codelineno-27-6" name="__codelineno-27-6" href="#__codelineno-27-6"></a>    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>
+<a id="__codelineno-27-7" name="__codelineno-27-7" href="#__codelineno-27-7"></a>    <span class="c1"># ...</span>
+<a id="__codelineno-27-8" name="__codelineno-27-8" href="#__codelineno-27-8"></a>
+<a id="__codelineno-27-9" name="__codelineno-27-9" href="#__codelineno-27-9"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">__post_init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<a id="__codelineno-27-10" name="__codelineno-27-10" href="#__codelineno-27-10"></a>        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">id</span> <span class="ow">or</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="o">.</span><span class="n">strip</span><span class="p">():</span>
+<a id="__codelineno-27-11" name="__codelineno-27-11" href="#__codelineno-27-11"></a>            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;工具 ID 不能为空&quot;</span><span class="p">)</span>
+<a id="__codelineno-27-12" name="__codelineno-27-12" href="#__codelineno-27-12"></a>        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="ow">or</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">strip</span><span class="p">():</span>
+<a id="__codelineno-27-13" name="__codelineno-27-13" href="#__codelineno-27-13"></a>            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;工具名称不能为空&quot;</span><span class="p">)</span>
+<a id="__codelineno-27-14" name="__codelineno-27-14" href="#__codelineno-27-14"></a>        <span class="k">if</span> <span class="ow">not</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;^[a-zA-Z0-9_\-\u4e00-\u9fff]+$&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">):</span>
+<a id="__codelineno-27-15" name="__codelineno-27-15" href="#__codelineno-27-15"></a>            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;工具 ID 包含非法字符: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="43-runtimetool">4.3 RuntimeTool 注释过时<a class="headerlink" href="#43-runtimetool" title="Permanent link">&para;</a></h3>
+<p><strong>文件</strong>：<code>core/tool_manager.py</code> 第39-62行</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a><span class="k">class</span><span class="w"> </span><span class="nc">RuntimeTool</span><span class="p">(</span><span class="n">ToolModel</span><span class="p">):</span>
+<a id="__codelineno-28-2" name="__codelineno-28-2" href="#__codelineno-28-2"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<a id="__codelineno-28-3" name="__codelineno-28-3" href="#__codelineno-28-3"></a><span class="sd">    运行时工具对象</span>
+<a id="__codelineno-28-4" name="__codelineno-28-4" href="#__codelineno-28-4"></a><span class="sd">    继承自 Pydantic ToolModel，添加 callback 和 execute 方法</span>
+<a id="__codelineno-28-5" name="__codelineno-28-5" href="#__codelineno-28-5"></a><span class="sd">    &quot;&quot;&quot;</span>           <span class="c1"># ← &quot;Pydantic&quot; 过时，实际是 dataclass</span>
+</code></pre></div>
+<h3 id="44-3">4.4 路径计算重复 3 次<a class="headerlink" href="#44-3" title="Permanent link">&para;</a></h3>
+<p><strong>文件</strong>：<code>core/tool_manager.py</code> 第209、649、709行</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-29-1" name="__codelineno-29-1" href="#__codelineno-29-1"></a><span class="c1"># 三处完全相同的代码</span>
+<a id="__codelineno-29-2" name="__codelineno-29-2" href="#__codelineno-29-2"></a><span class="n">current_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)))</span>
+</code></pre></div>
+<p><strong>建议</strong>：提取为类常量：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-30-1" name="__codelineno-30-1" href="#__codelineno-30-1"></a><span class="k">class</span><span class="w"> </span><span class="nc">ToolManager</span><span class="p">:</span>
+<a id="__codelineno-30-2" name="__codelineno-30-2" href="#__codelineno-30-2"></a>    <span class="n">_ROOT_DIR</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">parent</span>  <span class="c1"># floating_toolbox/</span>
+</code></pre></div>
+<h3 id="45-lambda">4.5 Lambda 闭包的隐患<a class="headerlink" href="#45-lambda" title="Permanent link">&para;</a></h3>
+<p><strong>文件</strong>：<code>core/tool_manager.py</code> 第811-815行</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-31-1" name="__codelineno-31-1" href="#__codelineno-31-1"></a><span class="n">code</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;code&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+<a id="__codelineno-31-2" name="__codelineno-31-2" href="#__codelineno-31-2"></a><span class="n">language</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;language&quot;</span><span class="p">,</span> <span class="s2">&quot;Python&quot;</span><span class="p">)</span>
+<a id="__codelineno-31-3" name="__codelineno-31-3" href="#__codelineno-31-3"></a><span class="n">callback</span> <span class="o">=</span> <span class="k">lambda</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_execute_code</span><span class="p">(</span><span class="n">code</span><span class="p">,</span> <span class="n">language</span><span class="p">)</span>
+</code></pre></div>
+<p>虽然当前上下文不会出问题（每次调用有独立栈帧），但这是一个脆弱的模式。</p>
+<p><strong>建议使用默认参数绑定</strong>：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-32-1" name="__codelineno-32-1" href="#__codelineno-32-1"></a><span class="n">callback</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">c</span><span class="o">=</span><span class="n">code</span><span class="p">,</span> <span class="n">l</span><span class="o">=</span><span class="n">language</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_execute_code</span><span class="p">(</span><span class="n">c</span><span class="p">,</span> <span class="n">l</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="46-except">4.6 裸 <code>except:</code> 吞掉所有异常<a class="headerlink" href="#46-except" title="Permanent link">&para;</a></h3>
+<p><strong>涉及文件</strong>：<code>main.py</code>、<code>install.py</code>、<code>docked_panel.py</code>、<code>panel_animation.py</code></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-33-1" name="__codelineno-33-1" href="#__codelineno-33-1"></a><span class="c1"># 多处出现</span>
+<a id="__codelineno-33-2" name="__codelineno-33-2" href="#__codelineno-33-2"></a><span class="k">try</span><span class="p">:</span>
+<a id="__codelineno-33-3" name="__codelineno-33-3" href="#__codelineno-33-3"></a>    <span class="n">widget</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+<a id="__codelineno-33-4" name="__codelineno-33-4" href="#__codelineno-33-4"></a><span class="k">except</span><span class="p">:</span>        <span class="c1"># ← 会吞掉 SystemExit, KeyboardInterrupt, MemoryError</span>
+<a id="__codelineno-33-5" name="__codelineno-33-5" href="#__codelineno-33-5"></a>    <span class="k">pass</span>
+</code></pre></div>
+<p><strong>建议统一改为</strong>：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-34-1" name="__codelineno-34-1" href="#__codelineno-34-1"></a><span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+<a id="__codelineno-34-2" name="__codelineno-34-2" href="#__codelineno-34-2"></a>    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;关闭组件时出错&quot;</span><span class="p">,</span> <span class="n">exc_info</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="47-mainpy-print-logger-p1">4.7 main.py 使用 print 而非 logger ✅ 已在 P1 阶段修复<a class="headerlink" href="#47-mainpy-print-logger-p1" title="Permanent link">&para;</a></h3>
+<p><strong>文件</strong>：<code>main.py</code> 第105-126行</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-35-1" name="__codelineno-35-1" href="#__codelineno-35-1"></a><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Loading last used marking menu template: </span><span class="si">{</span><span class="n">last_template</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<a id="__codelineno-35-2" name="__codelineno-35-2" href="#__codelineno-35-2"></a><span class="c1"># ...</span>
+<a id="__codelineno-35-3" name="__codelineno-35-3" href="#__codelineno-35-3"></a><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Warning: Failed to initialize marking menu: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</code></pre></div>
+<p>项目其他部分使用 <code>logger</code>，<code>main.py</code> 使用 <code>print()</code> 不一致。</p>
+<h3 id="48-mainpy">4.8 main.py 访问私有成员 ✅ 已修复<a class="headerlink" href="#48-mainpy" title="Permanent link">&para;</a></h3>
+<p><strong>文件</strong>：<code>main.py</code> 第97-112行</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-36-1" name="__codelineno-36-1" href="#__codelineno-36-1"></a><span class="n">last_template</span> <span class="o">=</span> <span class="n">manager</span><span class="o">.</span><span class="n">_config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;last_template&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>  <span class="c1"># ← 访问私有属性</span>
+<a id="__codelineno-36-2" name="__codelineno-36-2" href="#__codelineno-36-2"></a><span class="n">manager</span><span class="o">.</span><span class="n">_load_first_available_template</span><span class="p">()</span>                    <span class="c1"># ← 调用私有方法</span>
+</code></pre></div>
+<p><strong>建议</strong>：为 <code>MarkingMenuManager</code> 添加公开 API：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-37-1" name="__codelineno-37-1" href="#__codelineno-37-1"></a><span class="k">class</span><span class="w"> </span><span class="nc">MarkingMenuManager</span><span class="p">:</span>
+<a id="__codelineno-37-2" name="__codelineno-37-2" href="#__codelineno-37-2"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_last_template</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<a id="__codelineno-37-3" name="__codelineno-37-3" href="#__codelineno-37-3"></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;last_template&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+<a id="__codelineno-37-4" name="__codelineno-37-4" href="#__codelineno-37-4"></a>
+<a id="__codelineno-37-5" name="__codelineno-37-5" href="#__codelineno-37-5"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">load_default_template</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<a id="__codelineno-37-6" name="__codelineno-37-6" href="#__codelineno-37-6"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">_load_first_available_template</span><span class="p">()</span>
+</code></pre></div>
+<h3 id="49-viewmodel">4.9 ViewModel 重复懒加载导入<a class="headerlink" href="#49-viewmodel" title="Permanent link">&para;</a></h3>
+<p><strong>文件</strong>：<code>ui/toolbox_viewmodel.py</code> 第347-379行</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-38-1" name="__codelineno-38-1" href="#__codelineno-38-1"></a><span class="k">def</span><span class="w"> </span><span class="nf">get_resource_path</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
+<a id="__codelineno-38-2" name="__codelineno-38-2" href="#__codelineno-38-2"></a>    <span class="kn">from</span><span class="w"> </span><span class="nn">floating_toolbox.core.resource_manager</span><span class="w"> </span><span class="kn">import</span> <span class="n">ResourceManager</span>  <span class="c1"># 重复1</span>
+<a id="__codelineno-38-3" name="__codelineno-38-3" href="#__codelineno-38-3"></a>    <span class="k">return</span> <span class="n">ResourceManager</span><span class="p">()</span><span class="o">.</span><span class="n">get_path</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+<a id="__codelineno-38-4" name="__codelineno-38-4" href="#__codelineno-38-4"></a>
+<a id="__codelineno-38-5" name="__codelineno-38-5" href="#__codelineno-38-5"></a><span class="k">def</span><span class="w"> </span><span class="nf">get_tool_icon_path</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">icon_name</span><span class="p">):</span>
+<a id="__codelineno-38-6" name="__codelineno-38-6" href="#__codelineno-38-6"></a>    <span class="kn">from</span><span class="w"> </span><span class="nn">floating_toolbox.core.resource_manager</span><span class="w"> </span><span class="kn">import</span> <span class="n">ResourceManager</span>  <span class="c1"># 重复2</span>
+<a id="__codelineno-38-7" name="__codelineno-38-7" href="#__codelineno-38-7"></a>    <span class="o">...</span>
+<a id="__codelineno-38-8" name="__codelineno-38-8" href="#__codelineno-38-8"></a>
+<a id="__codelineno-38-9" name="__codelineno-38-9" href="#__codelineno-38-9"></a><span class="k">def</span><span class="w"> </span><span class="nf">get_main_icon_path</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">icon_name</span><span class="p">):</span>
+<a id="__codelineno-38-10" name="__codelineno-38-10" href="#__codelineno-38-10"></a>    <span class="kn">from</span><span class="w"> </span><span class="nn">floating_toolbox.core.resource_manager</span><span class="w"> </span><span class="kn">import</span> <span class="n">ResourceManager</span>  <span class="c1"># 重复3</span>
+<a id="__codelineno-38-11" name="__codelineno-38-11" href="#__codelineno-38-11"></a>    <span class="o">...</span>
+</code></pre></div>
+<p><strong>建议</strong>：在 <code>__init__</code> 中初始化一次：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-39-1" name="__codelineno-39-1" href="#__codelineno-39-1"></a><span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<a id="__codelineno-39-2" name="__codelineno-39-2" href="#__codelineno-39-2"></a>    <span class="kn">from</span><span class="w"> </span><span class="nn">floating_toolbox.core.resource_manager</span><span class="w"> </span><span class="kn">import</span> <span class="n">ResourceManager</span>
+<a id="__codelineno-39-3" name="__codelineno-39-3" href="#__codelineno-39-3"></a>    <span class="bp">self</span><span class="o">.</span><span class="n">_resource_manager</span> <span class="o">=</span> <span class="n">ResourceManager</span><span class="p">()</span>
+</code></pre></div>
+<h3 id="410-quickpanel">4.10 QuickPanel 性能问题 ✅ 已修复<a class="headerlink" href="#410-quickpanel" title="Permanent link">&para;</a></h3>
+<p><strong>文件</strong>：<code>ui/panels/quick_panel.py</code></p>
+<p><code>_add_button()</code> 方法内部每次调用都重复导入：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-40-1" name="__codelineno-40-1" href="#__codelineno-40-1"></a><span class="k">def</span><span class="w"> </span><span class="nf">_add_button</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">...</span><span class="p">):</span>
+<a id="__codelineno-40-2" name="__codelineno-40-2" href="#__codelineno-40-2"></a>    <span class="kn">import</span><span class="w"> </span><span class="nn">hashlib</span>    <span class="c1"># ← 每个按钮都导入一次</span>
+<a id="__codelineno-40-3" name="__codelineno-40-3" href="#__codelineno-40-3"></a>    <span class="kn">import</span><span class="w"> </span><span class="nn">re</span>         <span class="c1"># ← 每个按钮都导入一次</span>
+</code></pre></div>
+<p><strong>建议</strong>：移到模块顶部。</p>
+<h3 id="411-controller">4.11 Controller 面板位置不检测屏幕边界<a class="headerlink" href="#411-controller" title="Permanent link">&para;</a></h3>
+<p><strong>文件</strong>：<code>ui/toolbox_controller.py</code> 第124-138行</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-41-1" name="__codelineno-41-1" href="#__codelineno-41-1"></a><span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">viewmodel</span><span class="o">.</span><span class="n">get_position</span><span class="p">()</span>
+<a id="__codelineno-41-2" name="__codelineno-41-2" href="#__codelineno-41-2"></a><span class="k">if</span> <span class="n">x</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">y</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">:</span>
+<a id="__codelineno-41-3" name="__codelineno-41-3" href="#__codelineno-41-3"></a>    <span class="bp">self</span><span class="o">.</span><span class="n">_current_panel</span><span class="o">.</span><span class="n">move</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+</code></pre></div>
+<p>如果用户断开了一个显示器，保存的位置可能在屏幕外，面板会不可见且无法恢复。</p>
+<p><strong>建议</strong>：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-42-1" name="__codelineno-42-1" href="#__codelineno-42-1"></a><span class="k">def</span><span class="w"> </span><span class="nf">_ensure_on_screen</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">widget</span><span class="p">):</span>
+<a id="__codelineno-42-2" name="__codelineno-42-2" href="#__codelineno-42-2"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;确保窗口在可见屏幕范围内&quot;&quot;&quot;</span>
+<a id="__codelineno-42-3" name="__codelineno-42-3" href="#__codelineno-42-3"></a>    <span class="kn">from</span><span class="w"> </span><span class="nn">Qt</span><span class="w"> </span><span class="kn">import</span> <span class="n">QtWidgets</span>
+<a id="__codelineno-42-4" name="__codelineno-42-4" href="#__codelineno-42-4"></a>    <span class="n">screen</span> <span class="o">=</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QApplication</span><span class="o">.</span><span class="n">primaryScreen</span><span class="p">()</span>
+<a id="__codelineno-42-5" name="__codelineno-42-5" href="#__codelineno-42-5"></a>    <span class="k">if</span> <span class="n">screen</span><span class="p">:</span>
+<a id="__codelineno-42-6" name="__codelineno-42-6" href="#__codelineno-42-6"></a>        <span class="n">screen_rect</span> <span class="o">=</span> <span class="n">screen</span><span class="o">.</span><span class="n">availableGeometry</span><span class="p">()</span>
+<a id="__codelineno-42-7" name="__codelineno-42-7" href="#__codelineno-42-7"></a>        <span class="n">widget_rect</span> <span class="o">=</span> <span class="n">widget</span><span class="o">.</span><span class="n">frameGeometry</span><span class="p">()</span>
+<a id="__codelineno-42-8" name="__codelineno-42-8" href="#__codelineno-42-8"></a>        <span class="k">if</span> <span class="ow">not</span> <span class="n">screen_rect</span><span class="o">.</span><span class="n">contains</span><span class="p">(</span><span class="n">widget_rect</span><span class="p">):</span>
+<a id="__codelineno-42-9" name="__codelineno-42-9" href="#__codelineno-42-9"></a>            <span class="c1"># 重置到屏幕中心</span>
+<a id="__codelineno-42-10" name="__codelineno-42-10" href="#__codelineno-42-10"></a>            <span class="n">widget</span><span class="o">.</span><span class="n">move</span><span class="p">(</span>
+<a id="__codelineno-42-11" name="__codelineno-42-11" href="#__codelineno-42-11"></a>                <span class="n">screen_rect</span><span class="o">.</span><span class="n">center</span><span class="p">()</span> <span class="o">-</span> <span class="n">widget_rect</span><span class="o">.</span><span class="n">center</span><span class="p">()</span>
+<a id="__codelineno-42-12" name="__codelineno-42-12" href="#__codelineno-42-12"></a>            <span class="p">)</span>
+</code></pre></div>
+<hr />
+<h2 id="_3">五、功能增强建议<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
+<h3 id="51-idlepanel">5.1 保存提醒功能（IdlePanel 扩展）<a class="headerlink" href="#51-idlepanel" title="Permanent link">&para;</a></h3>
+<p>这是你提到想在 IdlePanel 上实现的功能，建议实现方案：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-43-1" name="__codelineno-43-1" href="#__codelineno-43-1"></a><span class="k">class</span><span class="w"> </span><span class="nc">SaveReminderService</span><span class="p">:</span>
+<a id="__codelineno-43-2" name="__codelineno-43-2" href="#__codelineno-43-2"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Maya 保存提醒服务&quot;&quot;&quot;</span>
+<a id="__codelineno-43-3" name="__codelineno-43-3" href="#__codelineno-43-3"></a>
+<a id="__codelineno-43-4" name="__codelineno-43-4" href="#__codelineno-43-4"></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">interval_minutes</span><span class="o">=</span><span class="mi">15</span><span class="p">):</span>
+<a id="__codelineno-43-5" name="__codelineno-43-5" href="#__codelineno-43-5"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">_interval</span> <span class="o">=</span> <span class="n">interval_minutes</span> <span class="o">*</span> <span class="mi">60</span> <span class="o">*</span> <span class="mi">1000</span>  <span class="c1"># 转为毫秒</span>
+<a id="__codelineno-43-6" name="__codelineno-43-6" href="#__codelineno-43-6"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">_timer</span> <span class="o">=</span> <span class="n">QtCore</span><span class="o">.</span><span class="n">QTimer</span><span class="p">()</span>
+<a id="__codelineno-43-7" name="__codelineno-43-7" href="#__codelineno-43-7"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">_timer</span><span class="o">.</span><span class="n">timeout</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_check_save_status</span><span class="p">)</span>
+<a id="__codelineno-43-8" name="__codelineno-43-8" href="#__codelineno-43-8"></a>
+<a id="__codelineno-43-9" name="__codelineno-43-9" href="#__codelineno-43-9"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">start</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<a id="__codelineno-43-10" name="__codelineno-43-10" href="#__codelineno-43-10"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">_timer</span><span class="o">.</span><span class="n">start</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_interval</span><span class="p">)</span>
+<a id="__codelineno-43-11" name="__codelineno-43-11" href="#__codelineno-43-11"></a>
+<a id="__codelineno-43-12" name="__codelineno-43-12" href="#__codelineno-43-12"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">_check_save_status</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<a id="__codelineno-43-13" name="__codelineno-43-13" href="#__codelineno-43-13"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;检查场景是否有未保存的修改&quot;&quot;&quot;</span>
+<a id="__codelineno-43-14" name="__codelineno-43-14" href="#__codelineno-43-14"></a>        <span class="kn">import</span><span class="w"> </span><span class="nn">maya.cmds</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">cmds</span>
+<a id="__codelineno-43-15" name="__codelineno-43-15" href="#__codelineno-43-15"></a>        <span class="k">if</span> <span class="n">cmds</span><span class="o">.</span><span class="n">file</span><span class="p">(</span><span class="n">q</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">modified</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<a id="__codelineno-43-16" name="__codelineno-43-16" href="#__codelineno-43-16"></a>            <span class="bp">self</span><span class="o">.</span><span class="n">save_reminder_triggered</span><span class="o">.</span><span class="n">emit</span><span class="p">()</span>
+<a id="__codelineno-43-17" name="__codelineno-43-17" href="#__codelineno-43-17"></a>
+<a id="__codelineno-43-18" name="__codelineno-43-18" href="#__codelineno-43-18"></a>    <span class="c1"># 信号</span>
+<a id="__codelineno-43-19" name="__codelineno-43-19" href="#__codelineno-43-19"></a>    <span class="n">save_reminder_triggered</span> <span class="o">=</span> <span class="n">QtCore</span><span class="o">.</span><span class="n">Signal</span><span class="p">()</span>
+</code></pre></div>
+<p><strong>UI 交互方式建议（不打断工作流）</strong>：
+- IdlePanel 呼吸灯从紫色变为<strong>橙色/红色</strong>渐变提醒
+- 鼠标悬停时显示 "距离上次保存已 XX 分钟"
+- 提供一键保存按钮（不弹窗）
+- 保存成功后呼吸灯恢复正常颜色</p>
+<p><strong>可配置项</strong>：
+- 提醒间隔（5/10/15/30分钟）
+- 是否启用提醒
+- 提醒方式（变色/闪烁/声音）</p>
+<h3 id="52">5.2 工具导出/导入系统<a class="headerlink" href="#52" title="Permanent link">&para;</a></h3>
+<p>为构建社区生态打基础：</p>
+<p><strong>Phase 1：本地导出/导入</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-44-1" name="__codelineno-44-1" href="#__codelineno-44-1"></a><span class="k">class</span><span class="w"> </span><span class="nc">ToolPackager</span><span class="p">:</span>
+<a id="__codelineno-44-2" name="__codelineno-44-2" href="#__codelineno-44-2"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;工具打包器 — 将工具导出为 .ftool 文件&quot;&quot;&quot;</span>
+<a id="__codelineno-44-3" name="__codelineno-44-3" href="#__codelineno-44-3"></a>
+<a id="__codelineno-44-4" name="__codelineno-44-4" href="#__codelineno-44-4"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">export_tool</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tool_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">output_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
+<a id="__codelineno-44-5" name="__codelineno-44-5" href="#__codelineno-44-5"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<a id="__codelineno-44-6" name="__codelineno-44-6" href="#__codelineno-44-6"></a><span class="sd">        导出格式 (.ftool = ZIP):</span>
+<a id="__codelineno-44-7" name="__codelineno-44-7" href="#__codelineno-44-7"></a><span class="sd">        ├── manifest.json    # 工具元数据 + 版本 + 依赖</span>
+<a id="__codelineno-44-8" name="__codelineno-44-8" href="#__codelineno-44-8"></a><span class="sd">        ├── tool.json        # 工具配置</span>
+<a id="__codelineno-44-9" name="__codelineno-44-9" href="#__codelineno-44-9"></a><span class="sd">        ├── code.py          # 工具代码</span>
+<a id="__codelineno-44-10" name="__codelineno-44-10" href="#__codelineno-44-10"></a><span class="sd">        └── icon.png         # 工具图标（可选）</span>
+<a id="__codelineno-44-11" name="__codelineno-44-11" href="#__codelineno-44-11"></a><span class="sd">        &quot;&quot;&quot;</span>
+<a id="__codelineno-44-12" name="__codelineno-44-12" href="#__codelineno-44-12"></a>
+<a id="__codelineno-44-13" name="__codelineno-44-13" href="#__codelineno-44-13"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">import_tool</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ftool_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ToolModel</span><span class="p">:</span>
+<a id="__codelineno-44-14" name="__codelineno-44-14" href="#__codelineno-44-14"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;导入 .ftool 文件，自动注册到工具箱&quot;&quot;&quot;</span>
+<a id="__codelineno-44-15" name="__codelineno-44-15" href="#__codelineno-44-15"></a>
+<a id="__codelineno-44-16" name="__codelineno-44-16" href="#__codelineno-44-16"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">validate_package</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ftool_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ValidationResult</span><span class="p">:</span>
+<a id="__codelineno-44-17" name="__codelineno-44-17" href="#__codelineno-44-17"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;验证包完整性和安全性&quot;&quot;&quot;</span>
+</code></pre></div>
+<p><strong>Phase 2：在线工具仓库</strong></p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-45-1" name="__codelineno-45-1" href="#__codelineno-45-1"></a>用户A 创建工具 → 导出 .ftool → 上传到 GitHub/自建服务器
+<a id="__codelineno-45-2" name="__codelineno-45-2" href="#__codelineno-45-2"></a>用户B 浏览工具市场 → 一键下载安装 → 自动注册
+</code></pre></div>
+<h3 id="53">5.3 工具使用统计面板<a class="headerlink" href="#53" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-46-1" name="__codelineno-46-1" href="#__codelineno-46-1"></a><span class="k">class</span><span class="w"> </span><span class="nc">ToolAnalytics</span><span class="p">:</span>
+<a id="__codelineno-46-2" name="__codelineno-46-2" href="#__codelineno-46-2"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;工具使用统计&quot;&quot;&quot;</span>
+<a id="__codelineno-46-3" name="__codelineno-46-3" href="#__codelineno-46-3"></a>
+<a id="__codelineno-46-4" name="__codelineno-46-4" href="#__codelineno-46-4"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_most_used_tools</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">limit</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]:</span>
+<a id="__codelineno-46-5" name="__codelineno-46-5" href="#__codelineno-46-5"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;最常使用的工具排名&quot;&quot;&quot;</span>
+<a id="__codelineno-46-6" name="__codelineno-46-6" href="#__codelineno-46-6"></a>
+<a id="__codelineno-46-7" name="__codelineno-46-7" href="#__codelineno-46-7"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_usage_by_category</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">]:</span>
+<a id="__codelineno-46-8" name="__codelineno-46-8" href="#__codelineno-46-8"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;按分类统计使用量&quot;&quot;&quot;</span>
+<a id="__codelineno-46-9" name="__codelineno-46-9" href="#__codelineno-46-9"></a>
+<a id="__codelineno-46-10" name="__codelineno-46-10" href="#__codelineno-46-10"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_usage_timeline</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">days</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">]]:</span>
+<a id="__codelineno-46-11" name="__codelineno-46-11" href="#__codelineno-46-11"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;使用量时间线（按天）&quot;&quot;&quot;</span>
+<a id="__codelineno-46-12" name="__codelineno-46-12" href="#__codelineno-46-12"></a>
+<a id="__codelineno-46-13" name="__codelineno-46-13" href="#__codelineno-46-13"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_efficiency_score</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<a id="__codelineno-46-14" name="__codelineno-46-14" href="#__codelineno-46-14"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;效率评分 = 快捷键使用次数 / 总使用次数&quot;&quot;&quot;</span>
+</code></pre></div>
+<p>这个数据可以用来：
+- 自动推荐 "你可能需要设置快捷键的工具"
+- 显示 "本周你节省了 XX 分钟"（激励用户持续使用）
+- 作为课程推广素材（"使用工具箱的用户平均效率提升XX%"）</p>
+<h3 id="54">5.4 工具搜索增强<a class="headerlink" href="#54" title="Permanent link">&para;</a></h3>
+<p>当前搜索是基于名称/描述的简单匹配。建议增加：</p>
+<ul>
+<li><strong>拼音搜索</strong>：中文用户可以用拼音首字母搜索（如 "cjlft" → "创建立方体"）</li>
+<li><strong>模糊搜索</strong>：容忍拼写错误</li>
+<li><strong>命令搜索</strong>：输入 Maya 命令名（如 "polyCube"）也能找到对应工具</li>
+<li><strong>标签搜索</strong>：工具可以添加标签（如 "建模", "UV", "权重"）</li>
+</ul>
+<h3 id="55">5.5 用户代码安全检查<a class="headerlink" href="#55" title="Permanent link">&para;</a></h3>
+<p><strong>文件</strong>：<code>core/tool_manager.py</code> 第763-782行</p>
+<p>当前用户创建的工具直接执行任意代码，没有任何安全检查。</p>
+<p><strong>建议添加基本安全审查</strong>：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-47-1" name="__codelineno-47-1" href="#__codelineno-47-1"></a><span class="n">DANGEROUS_PATTERNS</span> <span class="o">=</span> <span class="p">[</span>
+<a id="__codelineno-47-2" name="__codelineno-47-2" href="#__codelineno-47-2"></a>    <span class="sa">r</span><span class="s1">&#39;\bos\.system\b&#39;</span><span class="p">,</span>
+<a id="__codelineno-47-3" name="__codelineno-47-3" href="#__codelineno-47-3"></a>    <span class="sa">r</span><span class="s1">&#39;\bsubprocess\b&#39;</span><span class="p">,</span>
+<a id="__codelineno-47-4" name="__codelineno-47-4" href="#__codelineno-47-4"></a>    <span class="sa">r</span><span class="s1">&#39;\bshutil\.rmtree\b&#39;</span><span class="p">,</span>
+<a id="__codelineno-47-5" name="__codelineno-47-5" href="#__codelineno-47-5"></a>    <span class="sa">r</span><span class="s1">&#39;\b__import__\b&#39;</span><span class="p">,</span>
+<a id="__codelineno-47-6" name="__codelineno-47-6" href="#__codelineno-47-6"></a>    <span class="sa">r</span><span class="s1">&#39;\beval\b.*\binput\b&#39;</span><span class="p">,</span>
+<a id="__codelineno-47-7" name="__codelineno-47-7" href="#__codelineno-47-7"></a>    <span class="sa">r</span><span class="s1">&#39;\bopen\b.*[&quot;</span><span class="se">\&#39;</span><span class="s1">]w[&quot;</span><span class="se">\&#39;</span><span class="s1">]&#39;</span><span class="p">,</span>  <span class="c1"># 文件写入</span>
+<a id="__codelineno-47-8" name="__codelineno-47-8" href="#__codelineno-47-8"></a><span class="p">]</span>
+<a id="__codelineno-47-9" name="__codelineno-47-9" href="#__codelineno-47-9"></a>
+<a id="__codelineno-47-10" name="__codelineno-47-10" href="#__codelineno-47-10"></a><span class="k">def</span><span class="w"> </span><span class="nf">validate_tool_code</span><span class="p">(</span><span class="n">code</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<a id="__codelineno-47-11" name="__codelineno-47-11" href="#__codelineno-47-11"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;检查代码中的潜在危险操作&quot;&quot;&quot;</span>
+<a id="__codelineno-47-12" name="__codelineno-47-12" href="#__codelineno-47-12"></a>    <span class="n">warnings</span> <span class="o">=</span> <span class="p">[]</span>
+<a id="__codelineno-47-13" name="__codelineno-47-13" href="#__codelineno-47-13"></a>    <span class="k">for</span> <span class="n">pattern</span> <span class="ow">in</span> <span class="n">DANGEROUS_PATTERNS</span><span class="p">:</span>
+<a id="__codelineno-47-14" name="__codelineno-47-14" href="#__codelineno-47-14"></a>        <span class="k">if</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">pattern</span><span class="p">,</span> <span class="n">code</span><span class="p">):</span>
+<a id="__codelineno-47-15" name="__codelineno-47-15" href="#__codelineno-47-15"></a>            <span class="n">warnings</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;检测到潜在危险操作: </span><span class="si">{</span><span class="n">pattern</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<a id="__codelineno-47-16" name="__codelineno-47-16" href="#__codelineno-47-16"></a>    <span class="k">return</span> <span class="n">warnings</span>
+</code></pre></div>
+<p>用户导入外部工具时弹出确认框，显示代码预览和安全警告。</p>
+<hr />
+<h2 id="uiux">六、UI/UX 优化建议<a class="headerlink" href="#uiux" title="Permanent link">&para;</a></h2>
+<h3 id="61-dpi">6.1 DPI/高分屏适配 ✅ 已修复<a class="headerlink" href="#61-dpi" title="Permanent link">&para;</a></h3>
+<p><strong>当前问题</strong>：所有尺寸硬编码为像素值：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-48-1" name="__codelineno-48-1" href="#__codelineno-48-1"></a><span class="n">AVATAR_SIZE</span> <span class="o">=</span> <span class="mi">65</span>
+<a id="__codelineno-48-2" name="__codelineno-48-2" href="#__codelineno-48-2"></a><span class="n">ICON_BUTTON_SIZE</span> <span class="o">=</span> <span class="mi">60</span>
+<a id="__codelineno-48-3" name="__codelineno-48-3" href="#__codelineno-48-3"></a><span class="n">ToolSlotFrame</span><span class="p">:</span> <span class="n">FixedSize</span><span class="p">(</span><span class="mi">55</span><span class="p">,</span> <span class="mi">55</span><span class="p">)</span>
+</code></pre></div>
+<p>在 4K 显示器（VFX 工作站常见）上，UI 会非常小。</p>
+<p><strong>建议</strong>：引入 DPI 缩放系统：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-49-1" name="__codelineno-49-1" href="#__codelineno-49-1"></a><span class="k">class</span><span class="w"> </span><span class="nc">UIScale</span><span class="p">:</span>
+<a id="__codelineno-49-2" name="__codelineno-49-2" href="#__codelineno-49-2"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;DPI 感知的尺寸计算&quot;&quot;&quot;</span>
+<a id="__codelineno-49-3" name="__codelineno-49-3" href="#__codelineno-49-3"></a>
+<a id="__codelineno-49-4" name="__codelineno-49-4" href="#__codelineno-49-4"></a>    <span class="nd">@staticmethod</span>
+<a id="__codelineno-49-5" name="__codelineno-49-5" href="#__codelineno-49-5"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_scale_factor</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<a id="__codelineno-49-6" name="__codelineno-49-6" href="#__codelineno-49-6"></a>        <span class="n">app</span> <span class="o">=</span> <span class="n">QtWidgets</span><span class="o">.</span><span class="n">QApplication</span><span class="o">.</span><span class="n">instance</span><span class="p">()</span>
+<a id="__codelineno-49-7" name="__codelineno-49-7" href="#__codelineno-49-7"></a>        <span class="k">if</span> <span class="n">app</span> <span class="ow">and</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">app</span><span class="p">,</span> <span class="s1">&#39;primaryScreen&#39;</span><span class="p">):</span>
+<a id="__codelineno-49-8" name="__codelineno-49-8" href="#__codelineno-49-8"></a>            <span class="n">screen</span> <span class="o">=</span> <span class="n">app</span><span class="o">.</span><span class="n">primaryScreen</span><span class="p">()</span>
+<a id="__codelineno-49-9" name="__codelineno-49-9" href="#__codelineno-49-9"></a>            <span class="k">return</span> <span class="n">screen</span><span class="o">.</span><span class="n">logicalDotsPerInch</span><span class="p">()</span> <span class="o">/</span> <span class="mf">96.0</span>
+<a id="__codelineno-49-10" name="__codelineno-49-10" href="#__codelineno-49-10"></a>        <span class="k">return</span> <span class="mf">1.0</span>
+<a id="__codelineno-49-11" name="__codelineno-49-11" href="#__codelineno-49-11"></a>
+<a id="__codelineno-49-12" name="__codelineno-49-12" href="#__codelineno-49-12"></a>    <span class="nd">@classmethod</span>
+<a id="__codelineno-49-13" name="__codelineno-49-13" href="#__codelineno-49-13"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">scaled</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<a id="__codelineno-49-14" name="__codelineno-49-14" href="#__codelineno-49-14"></a>        <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="n">value</span> <span class="o">*</span> <span class="bp">cls</span><span class="o">.</span><span class="n">get_scale_factor</span><span class="p">())</span>
+<a id="__codelineno-49-15" name="__codelineno-49-15" href="#__codelineno-49-15"></a>
+<a id="__codelineno-49-16" name="__codelineno-49-16" href="#__codelineno-49-16"></a><span class="c1"># 使用</span>
+<a id="__codelineno-49-17" name="__codelineno-49-17" href="#__codelineno-49-17"></a><span class="n">AVATAR_SIZE</span> <span class="o">=</span> <span class="n">UIScale</span><span class="o">.</span><span class="n">scaled</span><span class="p">(</span><span class="mi">65</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="62">6.2 跨平台字体兼容 ✅ 已修复<a class="headerlink" href="#62" title="Permanent link">&para;</a></h3>
+<p><strong>当前问题</strong>：字体硬编码为 "Microsoft YaHei UI"（Windows 独占）。</p>
+<p><strong>建议</strong>：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-50-1" name="__codelineno-50-1" href="#__codelineno-50-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+<a id="__codelineno-50-2" name="__codelineno-50-2" href="#__codelineno-50-2"></a>
+<a id="__codelineno-50-3" name="__codelineno-50-3" href="#__codelineno-50-3"></a><span class="k">def</span><span class="w"> </span><span class="nf">get_ui_font_family</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<a id="__codelineno-50-4" name="__codelineno-50-4" href="#__codelineno-50-4"></a>    <span class="k">if</span> <span class="n">sys</span><span class="o">.</span><span class="n">platform</span> <span class="o">==</span> <span class="s1">&#39;win32&#39;</span><span class="p">:</span>
+<a id="__codelineno-50-5" name="__codelineno-50-5" href="#__codelineno-50-5"></a>        <span class="k">return</span> <span class="s1">&#39;Microsoft YaHei UI&#39;</span>
+<a id="__codelineno-50-6" name="__codelineno-50-6" href="#__codelineno-50-6"></a>    <span class="k">elif</span> <span class="n">sys</span><span class="o">.</span><span class="n">platform</span> <span class="o">==</span> <span class="s1">&#39;darwin&#39;</span><span class="p">:</span>
+<a id="__codelineno-50-7" name="__codelineno-50-7" href="#__codelineno-50-7"></a>        <span class="k">return</span> <span class="s1">&#39;PingFang SC&#39;</span>
+<a id="__codelineno-50-8" name="__codelineno-50-8" href="#__codelineno-50-8"></a>    <span class="k">else</span><span class="p">:</span>  <span class="c1"># Linux</span>
+<a id="__codelineno-50-9" name="__codelineno-50-9" href="#__codelineno-50-9"></a>        <span class="k">return</span> <span class="s1">&#39;Noto Sans CJK SC&#39;</span>
+</code></pre></div>
+<h3 id="63">6.3 面板状态机改进 ⏭ 暂缓（当前逻辑够用，避免过度设计）<a class="headerlink" href="#63" title="Permanent link">&para;</a></h3>
+<p>当前 <code>ToolboxController</code> 没有正式的状态机，建议引入枚举：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-51-1" name="__codelineno-51-1" href="#__codelineno-51-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">enum</span><span class="w"> </span><span class="kn">import</span> <span class="n">Enum</span><span class="p">,</span> <span class="n">auto</span>
+<a id="__codelineno-51-2" name="__codelineno-51-2" href="#__codelineno-51-2"></a>
+<a id="__codelineno-51-3" name="__codelineno-51-3" href="#__codelineno-51-3"></a><span class="k">class</span><span class="w"> </span><span class="nc">PanelState</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+<a id="__codelineno-51-4" name="__codelineno-51-4" href="#__codelineno-51-4"></a>    <span class="n">IDLE</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
+<a id="__codelineno-51-5" name="__codelineno-51-5" href="#__codelineno-51-5"></a>    <span class="n">QUICK</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
+<a id="__codelineno-51-6" name="__codelineno-51-6" href="#__codelineno-51-6"></a>    <span class="n">FULL</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
+<a id="__codelineno-51-7" name="__codelineno-51-7" href="#__codelineno-51-7"></a>    <span class="n">DOCKED</span> <span class="o">=</span> <span class="n">auto</span><span class="p">()</span>
+<a id="__codelineno-51-8" name="__codelineno-51-8" href="#__codelineno-51-8"></a>
+<a id="__codelineno-51-9" name="__codelineno-51-9" href="#__codelineno-51-9"></a><span class="n">VALID_TRANSITIONS</span> <span class="o">=</span> <span class="p">{</span>
+<a id="__codelineno-51-10" name="__codelineno-51-10" href="#__codelineno-51-10"></a>    <span class="n">PanelState</span><span class="o">.</span><span class="n">IDLE</span><span class="p">:</span> <span class="p">{</span><span class="n">PanelState</span><span class="o">.</span><span class="n">QUICK</span><span class="p">,</span> <span class="n">PanelState</span><span class="o">.</span><span class="n">FULL</span><span class="p">},</span>
+<a id="__codelineno-51-11" name="__codelineno-51-11" href="#__codelineno-51-11"></a>    <span class="n">PanelState</span><span class="o">.</span><span class="n">QUICK</span><span class="p">:</span> <span class="p">{</span><span class="n">PanelState</span><span class="o">.</span><span class="n">IDLE</span><span class="p">,</span> <span class="n">PanelState</span><span class="o">.</span><span class="n">FULL</span><span class="p">},</span>
+<a id="__codelineno-51-12" name="__codelineno-51-12" href="#__codelineno-51-12"></a>    <span class="n">PanelState</span><span class="o">.</span><span class="n">FULL</span><span class="p">:</span> <span class="p">{</span><span class="n">PanelState</span><span class="o">.</span><span class="n">IDLE</span><span class="p">,</span> <span class="n">PanelState</span><span class="o">.</span><span class="n">DOCKED</span><span class="p">},</span>
+<a id="__codelineno-51-13" name="__codelineno-51-13" href="#__codelineno-51-13"></a>    <span class="n">PanelState</span><span class="o">.</span><span class="n">DOCKED</span><span class="p">:</span> <span class="p">{</span><span class="n">PanelState</span><span class="o">.</span><span class="n">FULL</span><span class="p">},</span>
+<a id="__codelineno-51-14" name="__codelineno-51-14" href="#__codelineno-51-14"></a><span class="p">}</span>
+</code></pre></div>
+<h3 id="64">6.4 键盘导航支持<a class="headerlink" href="#64" title="Permanent link">&para;</a></h3>
+<p>当前 UI 完全依赖鼠标操作，建议添加：
+- <code>Tab</code> / <code>Shift+Tab</code> 在工具之间切换焦点
+- <code>Enter</code> 执行选中的工具
+- <code>Esc</code> 返回上一级面板
+- <code>Ctrl+F</code> 激活搜索框
+- 焦点指示器（聚焦时工具项添加高亮边框）</p>
+<h3 id="65">6.5 颜色对比度<a class="headerlink" href="#65" title="Permanent link">&para;</a></h3>
+<p>当前 <code>DraculaTheme.COMMENT</code>（#6272a4）在 <code>BG_PRIMARY</code>（#282a36）上的对比度约 3.4:1，低于 WCAG AA 标准（4.5:1）。</p>
+<p><strong>建议</strong>：将注释色提亮为 <code>#8292c4</code> 或 <code>#7a8abd</code>。</p>
+<h3 id="66">6.6 设置按钮是空实现<a class="headerlink" href="#66" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-52-1" name="__codelineno-52-1" href="#__codelineno-52-1"></a><span class="c1"># full_panel.py 和 docked_panel.py 中</span>
+<a id="__codelineno-52-2" name="__codelineno-52-2" href="#__codelineno-52-2"></a><span class="n">settings_btn</span><span class="o">.</span><span class="n">clicked</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;设置功能待实现&quot;</span><span class="p">))</span>
+</code></pre></div>
+<p><strong>建议</strong>：要么实现设置面板，要么移除按钮。未实现的功能留在 UI 上会让用户困惑。</p>
+<hr />
+<h2 id="_4">七、测试覆盖分析<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
+<h3 id="71">7.1 现有测试（优秀基础）<a class="headerlink" href="#71" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>测试文件</th>
+<th>覆盖范围</th>
+<th>测试数量</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>test_tool_manager.py</code></td>
+<td>工具 CRUD、收藏、搜索、执行、序列化</td>
+<td>~14</td>
+</tr>
+<tr>
+<td><code>test_category_manager.py</code></td>
+<td>分类 CRUD、图标、折叠状态、持久化</td>
+<td>~18</td>
+</tr>
+<tr>
+<td><code>test_config_manager.py</code></td>
+<td>JSON 读写、持久化、缓存、Unicode</td>
+<td>~10</td>
+</tr>
+<tr>
+<td><code>test_viewmodel.py</code></td>
+<td>ViewModel 属性、工具执行、信号</td>
+<td>~12</td>
+</tr>
+<tr>
+<td><code>test_refactoring.py</code></td>
+<td>MVVM 实例化验证</td>
+<td>~4</td>
+</tr>
+</tbody>
+</table>
+<p><code>conftest.py</code> 提供了专业级的测试基础设施（Maya mock、临时目录、单例重置）。</p>
+<h3 id="72">7.2 缺失的测试覆盖<a class="headerlink" href="#72" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>缺失领域</th>
+<th>重要性</th>
+<th>建议</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>UI 面板测试</td>
+<td>高</td>
+<td>至少测试 ToolTreeModel 的数据操作</td>
+</tr>
+<tr>
+<td>MarkingMenuManager</td>
+<td>高</td>
+<td>XML 解析/生成、模板管理</td>
+</tr>
+<tr>
+<td>HotkeyManager</td>
+<td>中</td>
+<td>快捷键注册/冲突检测</td>
+</tr>
+<tr>
+<td>ToolLoader 错误隔离</td>
+<td>高</td>
+<td>测试损坏文件不会影响其他工具</td>
+</tr>
+<tr>
+<td>ResourceManager</td>
+<td>中</td>
+<td>图标路径解析</td>
+</tr>
+<tr>
+<td>集成测试</td>
+<td>中</td>
+<td>面板状态机转换、信号流</td>
+</tr>
+<tr>
+<td>拖放操作</td>
+<td>低</td>
+<td>ToolTreeDnD</td>
+</tr>
+</tbody>
+</table>
+<h3 id="73">7.3 可能失败的测试<a class="headerlink" href="#73" title="Permanent link">&para;</a></h3>
+<p><code>test_refactoring.py</code> 中的导入路径可能已过时：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-53-1" name="__codelineno-53-1" href="#__codelineno-53-1"></a><span class="c1"># 可能不存在的路径</span>
+<a id="__codelineno-53-2" name="__codelineno-53-2" href="#__codelineno-53-2"></a><span class="kn">from</span><span class="w"> </span><span class="nn">floating_toolbox.core.hotkey_manager</span><span class="w"> </span><span class="kn">import</span> <span class="n">HotkeyManager</span>
+<a id="__codelineno-53-3" name="__codelineno-53-3" href="#__codelineno-53-3"></a><span class="c1"># 实际路径应为</span>
+<a id="__codelineno-53-4" name="__codelineno-53-4" href="#__codelineno-53-4"></a><span class="kn">from</span><span class="w"> </span><span class="nn">floating_toolbox.core.maya.hotkey_manager</span><span class="w"> </span><span class="kn">import</span> <span class="n">HotkeyManager</span>
+</code></pre></div>
+<p><code>test_viewmodel.py</code> 中：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-54-1" name="__codelineno-54-1" href="#__codelineno-54-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">floating_toolbox.core.config</span><span class="w"> </span><span class="kn">import</span> <span class="n">ConfigManager</span> <span class="k">as</span> <span class="n">OldConfigManager</span>
+<a id="__codelineno-54-2" name="__codelineno-54-2" href="#__codelineno-54-2"></a><span class="c1"># 可能需要更新</span>
+</code></pre></div>
+<h3 id="74">7.4 建议添加的关键测试<a class="headerlink" href="#74" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-55-1" name="__codelineno-55-1" href="#__codelineno-55-1"></a><span class="c1"># test_tool_loader_resilience.py</span>
+<a id="__codelineno-55-2" name="__codelineno-55-2" href="#__codelineno-55-2"></a><span class="k">class</span><span class="w"> </span><span class="nc">TestToolLoaderResilience</span><span class="p">:</span>
+<a id="__codelineno-55-3" name="__codelineno-55-3" href="#__codelineno-55-3"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;测试工具加载器的容错能力&quot;&quot;&quot;</span>
+<a id="__codelineno-55-4" name="__codelineno-55-4" href="#__codelineno-55-4"></a>
+<a id="__codelineno-55-5" name="__codelineno-55-5" href="#__codelineno-55-5"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">test_corrupt_json_tool_does_not_break_other_tools</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<a id="__codelineno-55-6" name="__codelineno-55-6" href="#__codelineno-55-6"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;一个损坏的 JSON 不影响其他工具加载&quot;&quot;&quot;</span>
+<a id="__codelineno-55-7" name="__codelineno-55-7" href="#__codelineno-55-7"></a>
+<a id="__codelineno-55-8" name="__codelineno-55-8" href="#__codelineno-55-8"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">test_missing_required_fields_in_json</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<a id="__codelineno-55-9" name="__codelineno-55-9" href="#__codelineno-55-9"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;JSON 缺少必填字段时优雅跳过&quot;&quot;&quot;</span>
+<a id="__codelineno-55-10" name="__codelineno-55-10" href="#__codelineno-55-10"></a>
+<a id="__codelineno-55-11" name="__codelineno-55-11" href="#__codelineno-55-11"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">test_invalid_python_tool_does_not_crash</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<a id="__codelineno-55-12" name="__codelineno-55-12" href="#__codelineno-55-12"></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;有语法错误的 Python 工具不影响加载&quot;&quot;&quot;</span>
+<a id="__codelineno-55-13" name="__codelineno-55-13" href="#__codelineno-55-13"></a>
+<a id="__codelineno-55-14" name="__codelineno-55-14" href="#__codelineno-55-14"></a><span class="c1"># test_config_recovery.py</span>
+<a id="__codelineno-55-15" name="__codelineno-55-15" href="#__codelineno-55-15"></a><span class="k">class</span><span class="w"> </span><span class="nc">TestConfigRecovery</span><span class="p">:</span>
+<a id="__codelineno-55-16" name="__codelineno-55-16" href="#__codelineno-55-16"></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;测试配置文件损坏恢复&quot;&quot;&quot;</span>
+<a id="__codelineno-55-17" name="__codelineno-55-17" href="#__codelineno-55-17"></a>
+<a id="__codelineno-55-18" name="__codelineno-55-18" href="#__codelineno-55-18"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">test_corrupt_config_falls_back_to_backup</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<a id="__codelineno-55-19" name="__codelineno-55-19" href="#__codelineno-55-19"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">test_missing_config_creates_default</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<a id="__codelineno-55-20" name="__codelineno-55-20" href="#__codelineno-55-20"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">test_atomic_save_survives_interruption</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+</code></pre></div>
+<h3 id="75">7.5 测试运行配置<a class="headerlink" href="#75" title="Permanent link">&para;</a></h3>
+<p>项目缺少 <code>pytest.ini</code> 或 <code>pyproject.toml</code> 中的测试配置。</p>
+<p><strong>建议添加</strong>：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-56-1" name="__codelineno-56-1" href="#__codelineno-56-1"></a><span class="c1"># pytest.ini</span>
+<a id="__codelineno-56-2" name="__codelineno-56-2" href="#__codelineno-56-2"></a><span class="k">[pytest]</span>
+<a id="__codelineno-56-3" name="__codelineno-56-3" href="#__codelineno-56-3"></a><span class="na">testpaths</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">floating_toolbox/tests</span>
+<a id="__codelineno-56-4" name="__codelineno-56-4" href="#__codelineno-56-4"></a><span class="na">python_files</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">test_*.py</span>
+<a id="__codelineno-56-5" name="__codelineno-56-5" href="#__codelineno-56-5"></a><span class="na">python_classes</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">Test*</span>
+<a id="__codelineno-56-6" name="__codelineno-56-6" href="#__codelineno-56-6"></a><span class="na">python_functions</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s">test_*</span>
+<a id="__codelineno-56-7" name="__codelineno-56-7" href="#__codelineno-56-7"></a><span class="na">markers</span><span class="w"> </span><span class="o">=</span>
+<a id="__codelineno-56-8" name="__codelineno-56-8" href="#__codelineno-56-8"></a><span class="w">    </span><span class="na">slow</span><span class="o">:</span><span class="w"> </span><span class="s">marks tests as slow</span>
+<a id="__codelineno-56-9" name="__codelineno-56-9" href="#__codelineno-56-9"></a><span class="w">    </span><span class="na">maya</span><span class="o">:</span><span class="w"> </span><span class="s">marks tests requiring Maya environment</span>
+</code></pre></div>
+<hr />
+<h2 id="_5">八、开源发布准备<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h2>
+<h3 id="81">8.1 文档更新<a class="headerlink" href="#81" title="Permanent link">&para;</a></h3>
+<p><code>docs/architecture.md</code> 引用了大量已不存在的路径：</p>
+<table>
+<thead>
+<tr>
+<th>文档中的路径</th>
+<th>实际路径</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ui/floating_ball.py</code></td>
+<td><code>ui/toolbox_controller.py</code></td>
+</tr>
+<tr>
+<td><code>core/viewmodels/toolbox_viewmodel.py</code></td>
+<td><code>ui/toolbox_viewmodel.py</code></td>
+</tr>
+<tr>
+<td><code>ui/components/</code></td>
+<td><code>ui/widgets/</code></td>
+</tr>
+<tr>
+<td><code>ui/delegates/</code></td>
+<td><code>ui/widgets/</code></td>
+</tr>
+<tr>
+<td><code>ui/dialogs/</code></td>
+<td><code>ui/widgets/</code></td>
+</tr>
+<tr>
+<td><code>ui/mixins/</code></td>
+<td><code>ui/panels/</code></td>
+</tr>
+<tr>
+<td><code>ui/models/</code></td>
+<td><code>ui/widgets/</code></td>
+</tr>
+<tr>
+<td><code>ui/styles/</code></td>
+<td><code>ui/styles.py</code></td>
+</tr>
+<tr>
+<td><code>core/pure/</code></td>
+<td><code>core/</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="82">8.2 必需的开源文件<a class="headerlink" href="#82" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>文件</th>
+<th>状态</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>README.md</code></td>
+<td>需创建</td>
+<td>GIF 演示 + 一键安装 + 功能列表</td>
+</tr>
+<tr>
+<td><code>LICENSE</code></td>
+<td>需创建</td>
+<td>推荐 MIT（最大传播）或 Apache 2.0（专利保护）</td>
+</tr>
+<tr>
+<td><code>CHANGELOG.md</code></td>
+<td>需创建</td>
+<td>版本历史</td>
+</tr>
+<tr>
+<td><code>CONTRIBUTING.md</code></td>
+<td>需创建</td>
+<td>贡献指南</td>
+</tr>
+<tr>
+<td><code>.github/workflows/</code></td>
+<td>需创建</td>
+<td>CI 自动测试</td>
+</tr>
+<tr>
+<td><code>.gitignore</code></td>
+<td>检查</td>
+<td>确保排除 <code>.idea/</code>、<code>__pycache__/</code>、<code>.pyc</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="83-readmemd">8.3 README.md 建议结构<a class="headerlink" href="#83-readmemd" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-57-1" name="__codelineno-57-1" href="#__codelineno-57-1"></a><span class="gh"># 🛠️ Floating Toolbox for Maya</span>
+<a id="__codelineno-57-2" name="__codelineno-57-2" href="#__codelineno-57-2"></a>
+<a id="__codelineno-57-3" name="__codelineno-57-3" href="#__codelineno-57-3"></a><span class="k">&gt; </span><span class="ge">Maya 效率利器 — 浮动工具盒 | 快捷面板 | 标记菜单 | 自定义工具</span>
+<a id="__codelineno-57-4" name="__codelineno-57-4" href="#__codelineno-57-4"></a>
+<a id="__codelineno-57-5" name="__codelineno-57-5" href="#__codelineno-57-5"></a>![<span class="nt">Maya 2022-2026</span>](<span class="na">https://img.shields.io/badge/Maya-2022--2026-blue</span>)
+<a id="__codelineno-57-6" name="__codelineno-57-6" href="#__codelineno-57-6"></a>![<span class="nt">License</span>](<span class="na">https://img.shields.io/badge/license-MIT-green</span>)
+<a id="__codelineno-57-7" name="__codelineno-57-7" href="#__codelineno-57-7"></a>
+<a id="__codelineno-57-8" name="__codelineno-57-8" href="#__codelineno-57-8"></a><span class="gu">## ✨ 功能特色</span>
+<a id="__codelineno-57-9" name="__codelineno-57-9" href="#__codelineno-57-9"></a>[配图 GIF 展示]
+<a id="__codelineno-57-10" name="__codelineno-57-10" href="#__codelineno-57-10"></a>
+<a id="__codelineno-57-11" name="__codelineno-57-11" href="#__codelineno-57-11"></a><span class="gu">## 📦 一键安装</span>
+<a id="__codelineno-57-12" name="__codelineno-57-12" href="#__codelineno-57-12"></a>[3步安装说明]
+<a id="__codelineno-57-13" name="__codelineno-57-13" href="#__codelineno-57-13"></a>
+<a id="__codelineno-57-14" name="__codelineno-57-14" href="#__codelineno-57-14"></a><span class="gu">## 🚀 快速开始</span>
+<a id="__codelineno-57-15" name="__codelineno-57-15" href="#__codelineno-57-15"></a>[30秒上手教程]
+<a id="__codelineno-57-16" name="__codelineno-57-16" href="#__codelineno-57-16"></a>
+<a id="__codelineno-57-17" name="__codelineno-57-17" href="#__codelineno-57-17"></a><span class="gu">## 📖 文档</span>
+<a id="__codelineno-57-18" name="__codelineno-57-18" href="#__codelineno-57-18"></a>[链接到 docs/]
+<a id="__codelineno-57-19" name="__codelineno-57-19" href="#__codelineno-57-19"></a>
+<a id="__codelineno-57-20" name="__codelineno-57-20" href="#__codelineno-57-20"></a><span class="gu">## 🤝 参与贡献</span>
+<a id="__codelineno-57-21" name="__codelineno-57-21" href="#__codelineno-57-21"></a>[链接到 CONTRIBUTING.md]
+<a id="__codelineno-57-22" name="__codelineno-57-22" href="#__codelineno-57-22"></a>
+<a id="__codelineno-57-23" name="__codelineno-57-23" href="#__codelineno-57-23"></a><span class="gu">## 📝 许可证</span>
+<a id="__codelineno-57-24" name="__codelineno-57-24" href="#__codelineno-57-24"></a>[MIT License]
+</code></pre></div>
+<h3 id="84">8.4 开源协议选择<a class="headerlink" href="#84" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>协议</th>
+<th>优点</th>
+<th>缺点</th>
+<th>适用场景</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>MIT</strong></td>
+<td>最宽松、传播最广</td>
+<td>无专利保护</td>
+<td>追求最大用户量</td>
+</tr>
+<tr>
+<td><strong>Apache 2.0</strong></td>
+<td>专利保护、企业友好</td>
+<td>略复杂</td>
+<td>有商业考虑</td>
+</tr>
+<tr>
+<td><strong>GPL v3</strong></td>
+<td>强制开源衍生作品</td>
+<td>限制商业使用</td>
+<td>不推荐（影响传播）</td>
+</tr>
+</tbody>
+</table>
+<p><strong>推荐 MIT</strong>：作为工具类插件，MIT 协议能最大化传播。你的商业价值不在代码本身，而在于品牌和课程。</p>
+<hr />
+<h2 id="_6">九、商业策略建议<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h2>
+<h3 id="91-vs">9.1 开源核心 vs 增值服务<a class="headerlink" href="#91-vs" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-58-1" name="__codelineno-58-1" href="#__codelineno-58-1"></a>┌─────────────────────────────────────────────────┐
+<a id="__codelineno-58-2" name="__codelineno-58-2" href="#__codelineno-58-2"></a>│             免费（开源核心）                       │
+<a id="__codelineno-58-3" name="__codelineno-58-3" href="#__codelineno-58-3"></a>│                                                   │
+<a id="__codelineno-58-4" name="__codelineno-58-4" href="#__codelineno-58-4"></a>│  工具盒基础功能    快捷面板    标记菜单             │
+<a id="__codelineno-58-5" name="__codelineno-58-5" href="#__codelineno-58-5"></a>│  快捷键管理        自定义工具  工具分类             │
+<a id="__codelineno-58-6" name="__codelineno-58-6" href="#__codelineno-58-6"></a>│  基础主题          社区工具市场（浏览/下载）         │
+<a id="__codelineno-58-7" name="__codelineno-58-7" href="#__codelineno-58-7"></a>│                                                   │
+<a id="__codelineno-58-8" name="__codelineno-58-8" href="#__codelineno-58-8"></a>├─────────────────────────────────────────────────┤
+<a id="__codelineno-58-9" name="__codelineno-58-9" href="#__codelineno-58-9"></a>│             增值（可选付费/赞助）                   │
+<a id="__codelineno-58-10" name="__codelineno-58-10" href="#__codelineno-58-10"></a>│                                                   │
+<a id="__codelineno-58-11" name="__codelineno-58-11" href="#__codelineno-58-11"></a>│  团队配置同步      高级使用统计                     │
+<a id="__codelineno-58-12" name="__codelineno-58-12" href="#__codelineno-58-12"></a>│  高级主题包        工具流水线（Pipeline）           │
+<a id="__codelineno-58-13" name="__codelineno-58-13" href="#__codelineno-58-13"></a>│  优先技术支持      商业授权                         │
+<a id="__codelineno-58-14" name="__codelineno-58-14" href="#__codelineno-58-14"></a>│  云端工具备份      工具市场上传/分享                 │
+<a id="__codelineno-58-15" name="__codelineno-58-15" href="#__codelineno-58-15"></a>│                                                   │
+<a id="__codelineno-58-16" name="__codelineno-58-16" href="#__codelineno-58-16"></a>└─────────────────────────────────────────────────┘
+</code></pre></div>
+<h3 id="92">9.2 品牌建设路径<a class="headerlink" href="#92" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-59-1" name="__codelineno-59-1" href="#__codelineno-59-1"></a>Phase 1：技术口碑（1-3个月）
+<a id="__codelineno-59-2" name="__codelineno-59-2" href="#__codelineno-59-2"></a>├── 修复所有 P0 Bug，发布稳定 v1.0
+<a id="__codelineno-59-3" name="__codelineno-59-3" href="#__codelineno-59-3"></a>├── 完善文档和安装体验
+<a id="__codelineno-59-4" name="__codelineno-59-4" href="#__codelineno-59-4"></a>├── 在 GitHub 建立项目主页
+<a id="__codelineno-59-5" name="__codelineno-59-5" href="#__codelineno-59-5"></a>└── 在 Artstation / CGSociety 发布介绍帖
+<a id="__codelineno-59-6" name="__codelineno-59-6" href="#__codelineno-59-6"></a>
+<a id="__codelineno-59-7" name="__codelineno-59-7" href="#__codelineno-59-7"></a>Phase 2：社区建设（3-6个月）
+<a id="__codelineno-59-8" name="__codelineno-59-8" href="#__codelineno-59-8"></a>├── B站/YouTube 发布使用教程
+<a id="__codelineno-59-9" name="__codelineno-59-9" href="#__codelineno-59-9"></a>├── 建立 QQ群 / Discord 社区
+<a id="__codelineno-59-10" name="__codelineno-59-10" href="#__codelineno-59-10"></a>├── 鼓励用户提交工具到社区仓库
+<a id="__codelineno-59-11" name="__codelineno-59-11" href="#__codelineno-59-11"></a>├── 积极回应 GitHub Issues
+<a id="__codelineno-59-12" name="__codelineno-59-12" href="#__codelineno-59-12"></a>└── 目标：GitHub 100+ Stars
+<a id="__codelineno-59-13" name="__codelineno-59-13" href="#__codelineno-59-13"></a>
+<a id="__codelineno-59-14" name="__codelineno-59-14" href="#__codelineno-59-14"></a>Phase 3：商业化探索（6-12个月）
+<a id="__codelineno-59-15" name="__codelineno-59-15" href="#__codelineno-59-15"></a>├── 推出 &quot;Maya TD 工具开发&quot; 课程
+<a id="__codelineno-59-16" name="__codelineno-59-16" href="#__codelineno-59-16"></a>├── 推出 &quot;Maya 效率提升&quot; 课程
+<a id="__codelineno-59-17" name="__codelineno-59-17" href="#__codelineno-59-17"></a>├── 引入赞助/捐赠机制（Sponsor / 爱发电）
+<a id="__codelineno-59-18" name="__codelineno-59-18" href="#__codelineno-59-18"></a>├── 考虑付费增值功能
+<a id="__codelineno-59-19" name="__codelineno-59-19" href="#__codelineno-59-19"></a>└── 目标：1000+ 用户，稳定收入流
+<a id="__codelineno-59-20" name="__codelineno-59-20" href="#__codelineno-59-20"></a>
+<a id="__codelineno-59-21" name="__codelineno-59-21" href="#__codelineno-59-21"></a>Phase 4：生态扩展（12个月+）
+<a id="__codelineno-59-22" name="__codelineno-59-22" href="#__codelineno-59-22"></a>├── 工具市场 SaaS 化
+<a id="__codelineno-59-23" name="__codelineno-59-23" href="#__codelineno-59-23"></a>├── 企业版（团队协作功能）
+<a id="__codelineno-59-24" name="__codelineno-59-24" href="#__codelineno-59-24"></a>├── 扩展到其他 DCC（Blender/Houdini/Substance）
+<a id="__codelineno-59-25" name="__codelineno-59-25" href="#__codelineno-59-25"></a>└── 建立 CG 工具品牌
+</code></pre></div>
+<h3 id="93">9.3 课程推广与工具的协同效应<a class="headerlink" href="#93" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-60-1" name="__codelineno-60-1" href="#__codelineno-60-1"></a>工具吸引用户 → 用户对你产生信任 → 用户购买课程
+<a id="__codelineno-60-2" name="__codelineno-60-2" href="#__codelineno-60-2"></a>     ↑                                    │
+<a id="__codelineno-60-3" name="__codelineno-60-3" href="#__codelineno-60-3"></a>     └────── 课程学员使用工具 ←────────────┘
+</code></pre></div>
+<p>关键指标建议跟踪：
+- <strong>GitHub Stars / Forks</strong>：品牌影响力
+- <strong>下载量 / 安装量</strong>：用户基础
+- <strong>工具使用频率</strong>：用户粘性
+- <strong>社区活跃度</strong>：Issues / PR / 讨论
+- <strong>课程转化率</strong>：工具用户 → 课程学员</p>
+<h3 id="94">9.4 差异化竞争优势<a class="headerlink" href="#94" title="Permanent link">&para;</a></h3>
+<p>Maya 生态中类似工具不少，你的差异化应该聚焦在：</p>
+<ol>
+<li><strong>极致的安装体验</strong>：一键安装，零配置</li>
+<li><strong>社区工具生态</strong>：不只是工具盒，而是工具分享平台</li>
+<li><strong>中文优先</strong>：针对中文 CG 社区优化</li>
+<li><strong>持续更新</strong>：保持活跃的开发节奏</li>
+<li><strong>教育属性</strong>：工具本身就是学习 Maya 的入口</li>
+</ol>
+<hr />
+<h2 id="_7">十、优先级总表<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h2>
+<h3 id="p0">P0 — 致命（阻塞发布）<a class="headerlink" href="#p0" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>问题</th>
+<th>文件</th>
+<th>预计工时</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><code>install.py</code> 的 <code>open(r'r')</code> Bug</td>
+<td>install.py:321</td>
+<td>5分钟</td>
+</tr>
+<tr>
+<td>2</td>
+<td><code>tool_loader</code> 的 <code>raise e</code> 杀死全部工具</td>
+<td>tool_loader.py:207,259</td>
+<td>30分钟</td>
+</tr>
+<tr>
+<td>3</td>
+<td>ViewModel 导入路径错误导致 Undo 失效</td>
+<td>toolbox_viewmodel.py:186</td>
+<td>5分钟</td>
+</tr>
+<tr>
+<td>4</td>
+<td>full_panel/docked_panel 重复代码</td>
+<td>full_panel.py, docked_panel.py</td>
+<td>2-4小时</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Shelf Button 导致插件加载两次</td>
+<td>install.py:625-657</td>
+<td>10分钟</td>
+</tr>
+</tbody>
+</table>
+<h3 id="p1_1">P1 — 严重（影响稳定性）<a class="headerlink" href="#p1_1" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>问题</th>
+<th>文件</th>
+<th>预计工时</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>6</td>
+<td>配置文件非原子写入</td>
+<td>config_manager.py</td>
+<td>1小时</td>
+</tr>
+<tr>
+<td>7</td>
+<td>节流保存丢失修改</td>
+<td>tool_manager.py:529</td>
+<td>1小时</td>
+</tr>
+<tr>
+<td>8</td>
+<td>close_toolbox() 不刷新保存</td>
+<td>main.py:149</td>
+<td>15分钟</td>
+</tr>
+<tr>
+<td>9</td>
+<td>ViewModel 绕过 ToolManager</td>
+<td>toolbox_viewmodel.py</td>
+<td>1小时</td>
+</tr>
+<tr>
+<td>10</td>
+<td>两个 ConfigManager 命名冲突</td>
+<td>config_manager.py, maya/config.py</td>
+<td>30分钟</td>
+</tr>
+</tbody>
+</table>
+<h3 id="p2_1">P2 — 中等（影响体验）<a class="headerlink" href="#p2_1" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>问题</th>
+<th>文件</th>
+<th>预计工时</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>11</td>
+<td>ToolModel 类型不一致</td>
+<td>tool_model.py</td>
+<td>30分钟</td>
+</tr>
+<tr>
+<td>12</td>
+<td>ToolModel 缺少输入验证</td>
+<td>tool_model.py</td>
+<td>1小时</td>
+</tr>
+<tr>
+<td>13</td>
+<td>裸 except 吞异常</td>
+<td>多个文件</td>
+<td>1小时</td>
+</tr>
+<tr>
+<td>14</td>
+<td>路径计算重复</td>
+<td>tool_manager.py</td>
+<td>30分钟</td>
+</tr>
+<tr>
+<td>15</td>
+<td>文档路径过时</td>
+<td>docs/architecture.md</td>
+<td>2小时</td>
+</tr>
+<tr>
+<td>16</td>
+<td>测试导入路径失败</td>
+<td>test_refactoring.py</td>
+<td>30分钟</td>
+</tr>
+<tr>
+<td>17</td>
+<td>DPI 缩放支持</td>
+<td>theme.py, 全局</td>
+<td>4小时</td>
+</tr>
+<tr>
+<td>18</td>
+<td>跨平台字体</td>
+<td>styles.py</td>
+<td>30分钟</td>
+</tr>
+<tr>
+<td>19</td>
+<td>屏幕边界检测</td>
+<td>toolbox_controller.py</td>
+<td>30分钟</td>
+</tr>
+</tbody>
+</table>
+<h3 id="p3">P3 — 建议（长期优化）<a class="headerlink" href="#p3" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>问题</th>
+<th>预计工时</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>20</td>
+<td>单例 → 依赖注入</td>
+<td>1-2天</td>
+</tr>
+<tr>
+<td>21</td>
+<td>国际化（i18n）</td>
+<td>2-3天</td>
+</tr>
+<tr>
+<td>22</td>
+<td>保存提醒功能</td>
+<td>1天</td>
+</tr>
+<tr>
+<td>23</td>
+<td>工具导出/导入</td>
+<td>2-3天</td>
+</tr>
+<tr>
+<td>24</td>
+<td>使用统计面板</td>
+<td>1-2天</td>
+</tr>
+<tr>
+<td>25</td>
+<td>搜索增强（拼音等）</td>
+<td>1天</td>
+</tr>
+<tr>
+<td>26</td>
+<td>键盘导航</td>
+<td>1天</td>
+</tr>
+<tr>
+<td>27</td>
+<td>补充测试覆盖</td>
+<td>2-3天</td>
+</tr>
+<tr>
+<td>28</td>
+<td>开源文件准备</td>
+<td>1天</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="_8">附录<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h2>
+<h3 id="a">A. 安全审查清单<a class="headerlink" href="#a" title="Permanent link">&para;</a></h3>
+<ul>
+<li>[ ] 用户工具代码执行前添加基本安全检查</li>
+<li>[ ] tool_id 路径遍历防护</li>
+<li>[ ] 导入的外部工具需用户确认</li>
+<li>[ ] 配置文件完整性校验</li>
+<li>[ ] 错误日志不泄露敏感路径信息</li>
+</ul>
+<h3 id="b">B. 发布前检查清单<a class="headerlink" href="#b" title="Permanent link">&para;</a></h3>
+<ul>
+<li>[ ] 所有 P0 Bug 已修复</li>
+<li>[ ] install.py 在 Maya 2022-2026 上测试通过</li>
+<li>[ ] 基础测试全部通过（pytest）</li>
+<li>[ ] README.md 完成并包含安装说明</li>
+<li>[ ] LICENSE 文件已添加</li>
+<li>[ ] .gitignore 已清理（排除 .idea/、<strong>pycache</strong>/ 等）</li>
+<li>[ ] CHANGELOG.md 记录 v1.0 变更</li>
+<li>[ ] 文档路径全部更新为最新结构</li>
+<li>[ ] 设置按钮的 print("设置功能待实现") 已处理</li>
+</ul>
+<h3 id="c-maya">C. Maya 版本兼容性矩阵<a class="headerlink" href="#c-maya" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Maya 版本</th>
+<th>Python</th>
+<th>Qt 绑定</th>
+<th>状态</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2022</td>
+<td>3.7</td>
+<td>PySide2</td>
+<td>需测试</td>
+</tr>
+<tr>
+<td>2023</td>
+<td>3.9</td>
+<td>PySide2</td>
+<td>需测试</td>
+</tr>
+<tr>
+<td>2024</td>
+<td>3.10</td>
+<td>PySide2</td>
+<td>需测试</td>
+</tr>
+<tr>
+<td>2025</td>
+<td>3.11</td>
+<td>PySide6</td>
+<td>需测试</td>
+</tr>
+<tr>
+<td>2026</td>
+<td>3.11+</td>
+<td>PySide6</td>
+<td>主要开发版本</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<blockquote>
+<p><strong>文档版本历史</strong></p>
+<table>
+<thead>
+<tr>
+<th>版本</th>
+<th>日期</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1.0</td>
+<td>2026-02-12</td>
+<td>初始架构审查报告</td>
+</tr>
+</tbody>
+</table>
+</blockquote>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  回到页面顶部
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "search.suggest", "search.highlight", "content.code.copy"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>

@@ -1,0 +1,1161 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="一个强大的、可定制的 Maya 浮动工具箱和标记菜单系统。">
+      
+      
+        <meta name="author" content="PixelSeed">
+      
+      
+        <link rel="canonical" href="https://<your-username>.github.io/MayaTool/analysis_and_recommendations/">
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.3">
+    
+    
+      
+        <title>🔍 Floating Toolbox 架构审查与进阶建议 - Maya Floating Toolbox</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="deep-purple" data-md-color-accent="deep-purple">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#floating-toolbox" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href=".." title="Maya Floating Toolbox" class="md-header__button md-logo" aria-label="Maya Floating Toolbox" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Maya Floating Toolbox
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              🔍 Floating Toolbox 架构审查与进阶建议
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="deep-purple" data-md-color-accent="deep-purple"  aria-label="切换到深色模式"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="切换到深色模式" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="deep-purple" data-md-color-accent="deep-purple"  aria-label="切换到浅色模式"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="切换到浅色模式" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="标签" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href=".." class="md-tabs__link">
+        
+  
+  
+    
+  
+  首页
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../features/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  核心特性
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../installation/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  安装指南
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../usage/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  使用教程
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../faq/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  常见问题
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Maya Floating Toolbox" class="md-nav__button md-logo" aria-label="Maya Floating Toolbox" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Maya Floating Toolbox
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    首页
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../features/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    核心特性
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../installation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    安装指南
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../usage/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    使用教程
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../faq/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    常见问题
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        一、当前项目健康度评估
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        二、仍需关注的问题
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="二、仍需关注的问题">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#21-save_user_tool" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.1 🔴 save_user_tool() 未使用原子写入
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#22-full_panelpy-docked_panelpy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.2 🟡 full_panel.py 和 docked_panel.py 代码重复
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#23-marking_menumanagerpy-44kb" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.3 🟡 marking_menu/manager.py — 单文件 44KB
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#24" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.4 🟡 屏幕边界检测仍缺失
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#25-toolloader" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2.5 🟢 测试目录缺少对 ToolLoader 容错的测试
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        三、开源化核心建议（你的首要目标）
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="三、开源化核心建议（你的首要目标）">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#31-readme" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.1 README 是你的门面
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#32" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.2 开源协议
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#33" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3.3 缺失的关键文件清单
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        四、功能优化建议（投入产出比排序）
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="四、功能优化建议（投入产出比排序）">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#41" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.1 🥇 保存提醒功能（你已计划的）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#42" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.2 🥈 工具搜索增强
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#43-ftool" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.3 🥉 工具导出/导入 (.ftool 包)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#44" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4.4 设置面板
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        五、商业策略精要
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="五、商业策略精要">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        关键节奏
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        差异化要点
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        六、当前代码的额外建议
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="六、当前代码的额外建议">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#61" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.1 国际化预埋（不急着做，但可以预埋）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#62" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.2 错误反馈机制
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#63-quick_panelpy-33kb" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6.3 quick_panel.py 的 33KB 体积
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        总结
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="floating-toolbox">🔍 Floating Toolbox 架构审查与进阶建议<a class="headerlink" href="#floating-toolbox" title="Permanent link">&para;</a></h1>
+<blockquote>
+<p>基于对源码的全面审查，结合你的开源 + 商业化目标</p>
+</blockquote>
+<hr />
+<h2 id="_1">一、当前项目健康度评估<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+<p>你的项目已经做了大量优化工作，以下是已验证的修复状态：</p>
+<table>
+<thead>
+<tr>
+<th>原报告编号</th>
+<th>问题</th>
+<th>✅ 已修复</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>P0 #2</td>
+<td><code>tool_loader</code> raise 杀死全部工具</td>
+<td>✅ <code>_load_python_tool</code> / <code>_load_json_tool</code> 现在 <code>return None</code></td>
+</tr>
+<tr>
+<td>P0 #3</td>
+<td>ViewModel 导入路径错误</td>
+<td>✅ 导入路径正确 <code>from floating_toolbox.core.maya.maya_service</code></td>
+</tr>
+<tr>
+<td>P0 #5</td>
+<td>Shelf Button 重复加载</td>
+<td>✅ <code>install.py</code> 已重构为 288 行，逻辑简洁</td>
+</tr>
+<tr>
+<td>P1 #6</td>
+<td>配置非原子写入</td>
+<td>✅ <code>_safe_write_json</code> 实现了 tempfile → backup → os.replace</td>
+</tr>
+<tr>
+<td>P1 #7</td>
+<td>节流保存丢失修改</td>
+<td>✅ <code>_dirty</code> 标记 + <code>_save_timer</code> 重置策略</td>
+</tr>
+<tr>
+<td>P1 #8</td>
+<td><code>close_toolbox()</code> 不刷新保存</td>
+<td>✅ 调用 <code>save_config_immediate()</code></td>
+</tr>
+<tr>
+<td>P1 #9</td>
+<td>ViewModel 绕过 ToolManager</td>
+<td>✅ <code>rename_category</code> / <code>delete_category</code> 正确委托</td>
+</tr>
+<tr>
+<td>P1 #10</td>
+<td>ConfigManager 命名冲突</td>
+<td>✅ 重命名为 <code>UIConfigManager</code></td>
+</tr>
+<tr>
+<td>P2 #11</td>
+<td>ToolModel 类型不一致</td>
+<td>✅ <code>pin_time: Optional[float]</code>, <code>last_used: Optional[str]</code></td>
+</tr>
+<tr>
+<td>P2 #12</td>
+<td>ToolModel 缺少验证</td>
+<td>✅ <code>__post_init__</code> + <code>_VALID_ID_PATTERN</code> 防路径遍历</td>
+</tr>
+<tr>
+<td>P2 #14</td>
+<td>路径计算重复</td>
+<td>✅ <code>_PACKAGE_ROOT</code> 类常量</td>
+</tr>
+<tr>
+<td>P2 #17</td>
+<td>DPI 缩放</td>
+<td>✅ <code>UIScale</code> + <code>UIConstants.apply_scaling()</code></td>
+</tr>
+<tr>
+<td>P2 #18</td>
+<td>跨平台字体</td>
+<td>✅ <code>_get_platform_font_family()</code></td>
+</tr>
+<tr>
+<td>代码质量</td>
+<td>lambda 闭包</td>
+<td>✅ <code>lambda _c=code, _l=language:</code> 默认参数绑定</td>
+</tr>
+<tr>
+<td>代码质量</td>
+<td>ViewModel 重复导入</td>
+<td>✅ <code>__init__</code> 中初始化 <code>_resource_manager</code></td>
+</tr>
+<tr>
+<td>代码质量</td>
+<td>RuntimeTool 注释</td>
+<td>✅ 改为 "dataclass"</td>
+</tr>
+</tbody>
+</table>
+<p><strong>整体评价：核心架构已相当扎实，MVVM 分层清晰，可以专注于"打磨体验"和"开源包装"。</strong></p>
+<hr />
+<h2 id="_2">二、仍需关注的问题<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<h3 id="21-save_user_tool">2.1 🔴 <code>save_user_tool()</code> 未使用原子写入<a class="headerlink" href="#21-save_user_tool" title="Permanent link">&para;</a></h3>
+<p><a href="file:///d:/PycharmPro/Maya2026_pro/MayaTool/floating_toolbox/core/tool_manager.py#L621-L687">save_user_tool</a> 中直接用 <code>open() + json.dump</code> 写用户工具文件，但 <code>config_manager.py</code> 已经有了 <code>_safe_write_json</code>。</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="w"> </span># tool_manager.py L667
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="gd">- with open(file_path, &quot;w&quot;, encoding=&quot;utf-8&quot;) as f:</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="gd">-     json.dump(tool_data, f, indent=2, ensure_ascii=False)</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="gi">+ self.config_manager._safe_write_json(file_path, tool_data)</span>
+</code></pre></div>
+<p>或者更好的做法：在 <code>ConfigManager</code> 中暴露 <code>save_user_tool_file(tool_id, data)</code> 公开方法。</p>
+<h3 id="22-full_panelpy-docked_panelpy">2.2 🟡 <code>full_panel.py</code> 和 <code>docked_panel.py</code> 代码重复<a class="headerlink" href="#22-full_panelpy-docked_panelpy" title="Permanent link">&para;</a></h3>
+<ul>
+<li><code>full_panel.py</code> = 24,591 bytes</li>
+<li><code>docked_panel.py</code> = 20,194 bytes</li>
+</ul>
+<p>这两个文件有大量重复的工具列表渲染逻辑。建议提取 <code>ToolPanelMixin</code> 或基类，将共享的搜索/排序/拖拽/右键菜单逻辑抽出。</p>
+<blockquote>
+<p>[!TIP]
+不需要一次性重构。可以逐步提取：先把右键菜单处理、搜索过滤、工具排序等纯逻辑函数提到 <code>ui/mixins/tool_panel_mixin.py</code> 中。</p>
+</blockquote>
+<h3 id="23-marking_menumanagerpy-44kb">2.3 🟡 <code>marking_menu/manager.py</code> — 单文件 44KB<a class="headerlink" href="#23-marking_menumanagerpy-44kb" title="Permanent link">&para;</a></h3>
+<p>这个文件有 44,005 字节，建议拆分为：
+- <code>manager.py</code> — 核心管理逻辑
+- <code>template_io.py</code> — XML模板的读写
+- <code>runtime.py</code> — Maya运行时菜单的创建/销毁</p>
+<h3 id="24">2.4 🟡 屏幕边界检测仍缺失<a class="headerlink" href="#24" title="Permanent link">&para;</a></h3>
+<p><a href="file:///d:/PycharmPro/Maya2026_pro/MayaTool/floating_toolbox/ui/toolbox_controller.py">toolbox_controller.py</a> 在恢复面板位置时没有检测屏幕边界。断开外接显示器后面板可能不可见。</p>
+<h3 id="25-toolloader">2.5 🟢 测试目录缺少对 ToolLoader 容错的测试<a class="headerlink" href="#25-toolloader" title="Permanent link">&para;</a></h3>
+<p>当前测试覆盖了 ToolManager/CategoryManager/ConfigManager/ViewModel，但缺少：
+- 损坏JSON文件不影响其他工具加载
+- 配置文件损坏时从 <code>.bak</code> 自动恢复</p>
+<hr />
+<h2 id="_3">三、<strong>开源化核心建议</strong>（你的首要目标）<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
+<h3 id="31-readme">3.1 README 是你的门面<a class="headerlink" href="#31-readme" title="Permanent link">&para;</a></h3>
+<blockquote>
+<p>[!IMPORTANT]
+对于一个开源项目，<strong>README.md</strong> 的重要性 ≥ 代码质量。用户不会先看你的代码，他们先看 README。</p>
+</blockquote>
+<p>建议结构：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>🛠️ Floating Toolbox for Maya
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>[GIF 动画演示 — 15秒展示核心功能]
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>✨ Features（3-5 个核心亮点，配截图）
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>📦 Installation（两步完成：下载 → 拖入 Maya）
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>🚀 Quick Start（30秒上手）
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>📖 Documentation（链接到 docs 站点）
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>🤝 Contributing
+</code></pre></div>
+<p><strong>关键：一定要有 GIF 动画。</strong> 静态截图的传播效果远不如 GIF。</p>
+<h3 id="32">3.2 开源协议<a class="headerlink" href="#32" title="Permanent link">&para;</a></h3>
+<p><strong>推荐 MIT</strong>。理由：
+- 你的商业价值在于品牌和课程，不在代码
+- MIT 最大化传播，企业/工作室可以放心使用
+- Maya 社区对 GPL 类协议有抵触</p>
+<h3 id="33">3.3 缺失的关键文件清单<a class="headerlink" href="#33" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>文件</th>
+<th>优先级</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>README.md</code>（完善版）</td>
+<td>🔴</td>
+<td>项目门面</td>
+</tr>
+<tr>
+<td><code>LICENSE</code></td>
+<td>🔴</td>
+<td>法律许可</td>
+</tr>
+<tr>
+<td><code>CHANGELOG.md</code></td>
+<td>🟡</td>
+<td>版本追踪</td>
+</tr>
+<tr>
+<td><code>CONTRIBUTING.md</code></td>
+<td>🟡</td>
+<td>贡献指南</td>
+</tr>
+<tr>
+<td><code>pytest.ini</code></td>
+<td>🟡</td>
+<td>测试配置</td>
+</tr>
+<tr>
+<td><code>.github/workflows/test.yml</code></td>
+<td>🟢</td>
+<td>CI 自动测试</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="_4">四、<strong>功能优化建议</strong>（投入产出比排序）<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h2>
+<h3 id="41">4.1 🥇 保存提醒功能（你已计划的）<a class="headerlink" href="#41" title="Permanent link">&para;</a></h3>
+<p>建议实现方式：<strong>不打断工作流</strong>
+- IdlePanel 呼吸灯从紫色 → 橙色渐变提醒
+- Tooltip 显示 "距上次保存 XX 分钟"
+- 单击直接保存（不弹窗！）</p>
+<p>这个功能虽小，但<strong>极具传播性</strong>——每个 Maya 用户都经历过崩溃丢失工作的痛苦。</p>
+<h3 id="42">4.2 🥈 工具搜索增强<a class="headerlink" href="#42" title="Permanent link">&para;</a></h3>
+<p>当前搜索是基于 <code>name/description/category</code> 的简单 <code>in</code> 匹配。建议：
+1. <strong>拼音首字母搜索</strong>（中文用户的刚需，如 "cjlft" → "创建立方体"）
+2. <strong>命令名搜索</strong>（输入 "polyCube" 找到对应工具）
+3. 这两个功能投入产出比极高，实现简单但差异化明显</p>
+<h3 id="43-ftool">4.3 🥉 工具导出/导入 (.ftool 包)<a class="headerlink" href="#43-ftool" title="Permanent link">&para;</a></h3>
+<p>为社区生态打基础。先实现本地导出/导入，为未来的在线工具市场建立格式标准。</p>
+<h3 id="44">4.4 设置面板<a class="headerlink" href="#44" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1"># 当前状态</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="n">settings_btn</span><span class="o">.</span><span class="n">clicked</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;设置功能待实现&quot;</span><span class="p">))</span>
+</code></pre></div>
+<p>有按钮但不工作 = 降低用户信任。要么实现，要么在 v1.0 前移除。</p>
+<hr />
+<h2 id="_5">五、商业策略精要<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>graph LR
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>    A[开源工具&lt;br/&gt;免费] --&gt;|建立信任| B[社区活跃&lt;br/&gt;100+ Stars]
+<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>    B --&gt;|品牌认知| C[课程/教程&lt;br/&gt;变现]
+<a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>    C --&gt;|学员使用工具| A
+<a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>
+<a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>    style A fill:#50fa7b,color:#282a36
+<a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>    style B fill:#8be9fd,color:#282a36
+<a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>    style C fill:#ff79c6,color:#282a36
+</code></pre></div>
+<h3 id="_6">关键节奏<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>阶段</th>
+<th>时间</th>
+<th>目标</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>v1.0 发布</strong></td>
+<td>1-2 周</td>
+<td>修复剩余问题 + README + LICENSE</td>
+</tr>
+<tr>
+<td><strong>社区种子</strong></td>
+<td>1-3 月</td>
+<td>B站教程 + GitHub 100 Stars</td>
+</tr>
+<tr>
+<td><strong>课程启动</strong></td>
+<td>3-6 月</td>
+<td>用工具的用户基础推广课程</td>
+</tr>
+</tbody>
+</table>
+<h3 id="_7">差异化要点<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h3>
+<ol>
+<li><strong>极致安装体验</strong> — 一拖即用，其他工具做不到</li>
+<li><strong>中文社区先行</strong> — CG 中文社区缺少高质量开源工具</li>
+<li><strong>教育属性</strong> — 工具本身能教会用户 Maya 工作流</li>
+</ol>
+<hr />
+<h2 id="_8">六、当前代码的额外建议<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h2>
+<h3 id="61">6.1 国际化预埋（不急着做，但可以预埋）<a class="headerlink" href="#61" title="Permanent link">&para;</a></h3>
+<p>建议在 UI 字符串中使用常量而非硬编码：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="c1"># 目前</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;工具管理器初始化完成&quot;</span><span class="p">)</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="c1"># 建议预埋</span>
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="k">class</span><span class="w"> </span><span class="nc">Messages</span><span class="p">:</span>
+<a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>    <span class="n">INIT_COMPLETE</span> <span class="o">=</span> <span class="s2">&quot;工具管理器初始化完成&quot;</span>  <span class="c1"># 将来可替换为 i18n</span>
+</code></pre></div>
+<p>这样未来支持英文就只需要修改一个文件。</p>
+<h3 id="62">6.2 错误反馈机制<a class="headerlink" href="#62" title="Permanent link">&para;</a></h3>
+<p>当工具执行失败时，用户目前无法直观看到错误信息。建议添加一个轻量的 toast 通知：</p>
+<ul>
+<li>✅ 成功：绿色闪烁（0.3秒即可）</li>
+<li>❌ 失败：红色提示 + 错误摘要（3秒自动消失）</li>
+</ul>
+<h3 id="63-quick_panelpy-33kb">6.3 <code>quick_panel.py</code> 的 33KB 体积<a class="headerlink" href="#63-quick_panelpy-33kb" title="Permanent link">&para;</a></h3>
+<p>这个文件也偏大（33,439 bytes）。如果后续重构 <code>full_panel</code>/<code>docked_panel</code>，可以同步拆分。</p>
+<hr />
+<h2 id="_9">总结<a class="headerlink" href="#_9" title="Permanent link">&para;</a></h2>
+<p><strong>你的项目已经超越了大多数 Maya 开源工具的工程质量。</strong> MVVM 架构、原子写入、DPI 缩放、输入验证——这些在 Maya 插件生态中非常少见。</p>
+<p><strong>当前的最高优先级不是继续优化代码，而是：</strong></p>
+<ol>
+<li>✍️ 写一个震撼的 README（附 GIF）</li>
+<li>📝 添加 LICENSE（MIT）</li>
+<li>🚀 发布 v1.0</li>
+<li>📹 在 B 站发布 3 分钟演示视频</li>
+</ol>
+<p>代码可以持续迭代，但开源项目的窗口期很重要——<strong>先发布，再完善。</strong></p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  回到页面顶部
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "search.suggest", "search.highlight", "content.code.copy"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>
