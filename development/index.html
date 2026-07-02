@@ -1,0 +1,1325 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="面向 Maya 生产场景的高效工具盒与标记菜单系统">
+      
+      
+        <meta name="author" content="PixelSeed">
+      
+      
+        <link rel="canonical" href="https://<your-username>.github.io/MayaTool/development/">
+      
+      
+        <link rel="prev" href="../configuration/">
+      
+      
+        <link rel="next" href="../faq/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>开发接入 - Maya Floating Toolbox</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="deep-purple" data-md-color-accent="deep-purple">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#_1" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href=".." title="Maya Floating Toolbox" class="md-header__button md-logo" aria-label="Maya Floating Toolbox" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Maya Floating Toolbox
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              开发接入
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="deep-purple" data-md-color-accent="deep-purple"  aria-label="切换到深色模式"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="切换到深色模式" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="deep-purple" data-md-color-accent="deep-purple"  aria-label="切换到浅色模式"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="切换到浅色模式" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="标签" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href=".." class="md-tabs__link">
+        
+  
+  
+    
+  
+  首页
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../features/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  核心特性
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../architecture/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  架构概览
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../installation/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  安装指南
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../usage/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  使用教程
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../configuration/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  配置说明
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    <li class="md-tabs__item md-tabs__item--active">
+      <a href="./" class="md-tabs__link">
+        
+  
+  
+    
+  
+  开发接入
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../faq/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  常见问题
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="Maya Floating Toolbox" class="md-nav__button md-logo" aria-label="Maya Floating Toolbox" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    Maya Floating Toolbox
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    首页
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../features/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    核心特性
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../architecture/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    架构概览
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../installation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    安装指南
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../usage/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    使用教程
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../configuration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    配置说明
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    开发接入
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    开发接入
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. 当前支持的工具来源
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-quick-tool-managed-capability" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Quick Tool 与 Managed Capability
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Quick Tool 与 Managed Capability">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#quick-tool" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Quick Tool
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#managed-capability" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Managed Capability
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. 推荐的正式接入方式
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. 当前正式生产工具样板
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-tool_manifestjson" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. tool_manifest.json
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-tool_contractjson" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. tool_contract.json
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-toolpy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. 入口文件 tool.py
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-broker" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. 执行入口为什么要接 Broker
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. 能力包生命周期
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10. 外部工具目录怎么接
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11. 测试入口
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#12-internal_docs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        12. 什么时候看 internal_docs
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../faq/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    常见问题
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. 当前支持的工具来源
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-quick-tool-managed-capability" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Quick Tool 与 Managed Capability
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Quick Tool 与 Managed Capability">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#quick-tool" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Quick Tool
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#managed-capability" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Managed Capability
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. 推荐的正式接入方式
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. 当前正式生产工具样板
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-tool_manifestjson" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. tool_manifest.json
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-tool_contractjson" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. tool_contract.json
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-toolpy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. 入口文件 tool.py
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-broker" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. 执行入口为什么要接 Broker
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        9. 能力包生命周期
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        10. 外部工具目录怎么接
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        11. 测试入口
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#12-internal_docs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        12. 什么时候看 internal_docs
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+
+<h1 id="_1">开发接入<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
+<p>本文档面向要为 Flux 增加新工具、外部工具目录、能力包或自动化测试入口的开发者。</p>
+<h2 id="1">1. 当前支持的工具来源<a class="headerlink" href="#1" title="Permanent link">&para;</a></h2>
+<p>工具盒当前支持三类主要来源：</p>
+<ol>
+<li>内置工具</li>
+<li>位于 <code>floating_toolbox/tools/builtin</code></li>
+<li>包式工具</li>
+<li>位于 <code>floating_toolbox/tools/advanced/&lt;tool_id&gt;</code></li>
+<li>用户工具</li>
+<li>由工具盒内创建并保存在用户目录中</li>
+</ol>
+<p>额外工具目录会复用包式工具的扫描与加载逻辑。</p>
+<h2 id="2-quick-tool-managed-capability">2. Quick Tool 与 Managed Capability<a class="headerlink" href="#2-quick-tool-managed-capability" title="Permanent link">&para;</a></h2>
+<p>Flux 当前正式区分两类工具对象。</p>
+<h3 id="quick-tool">Quick Tool<a class="headerlink" href="#quick-tool" title="Permanent link">&para;</a></h3>
+<p>Quick Tool 面向个人快速收纳与手动执行。</p>
+<p>适合场景：</p>
+<ul>
+<li>临时脚本</li>
+<li>个人工具</li>
+<li>不需要 AI 编排的轻量 Maya 操作</li>
+<li>只需要分类、搜索、收藏、钉选和手动运行</li>
+</ul>
+<p>Quick Tool 不需要 <code>tool_contract.json</code>，也不会通过 <code>ExecutionBroker</code> 执行。</p>
+<h3 id="managed-capability">Managed Capability<a class="headerlink" href="#managed-capability" title="Permanent link">&para;</a></h3>
+<p>Managed Capability 面向长期维护、AI 编排、治理、复用和审计。</p>
+<p>适合场景：</p>
+<ul>
+<li>希望进入 Scheduler / Flow / AI planning 的工具</li>
+<li>希望支持 dry-run、确认门禁、side-effect policy 的工具</li>
+<li>希望被导入、审核、发布、废弃、退役和审计的工具</li>
+<li>希望成为团队或外部 AI 协作者可理解资产的工具</li>
+</ul>
+<p>Managed Capability 必须以 capability package 方式接入，并提供 <code>tool_contract.json</code>。</p>
+<p>Quick Tool / Managed Capability 的产品模型、UI 表现层区别和后续生命周期产品化路线记录在：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>internal_docs/reference/toolbox_capability_package_spec_v1_zh.md
+</code></pre></div>
+<h2 id="3">3. 推荐的正式接入方式<a class="headerlink" href="#3" title="Permanent link">&para;</a></h2>
+<p>如果你希望工具长期维护、可迁移、可治理，推荐使用能力包。</p>
+<p>最小目录结构：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>my_tool/
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>  tool_manifest.json
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>  tool_contract.json
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>  tool.py
+</code></pre></div>
+<p>更完整的能力包：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>my_tool/
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>  tool_manifest.json
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>  tool_contract.json
+<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>  governance.json
+<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>  cards/
+<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>  tool.py
+<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>  scripts/
+<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>  resources/
+</code></pre></div>
+<p>当前最适合作为新工具起点的模板：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>floating_toolbox/tools/templates/capability_package_minimal
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>floating_toolbox/tools/templates/capability_package_ui_tool
+</code></pre></div>
+<p>新 UI 工具默认优先从 <code>capability_package_ui_tool</code> 开始。它表达的是当前 L3 作者路径：<code>FluxDialog</code> 窗口、<code>FTStatusStrip</code> 反馈区、<code>FTActionRow</code> 动作区、<code>tool.py</code> 薄入口、<code>scripts/*_ops.py</code> 业务操作层、<code>scripts/ui_patterns.py</code> 局部 UI pattern、cards 引用 contract action，以及 release review 入口。</p>
+<p>模板当前包含的局部 UI pattern 是：form section、preview result panel、inline error field、action result summary。它们先留在模板内，适合新工具复制后按需删减；只有当多个真实生产工具稳定复用同一结构时，再考虑提升到全局 <code>floating_toolbox.ui.kit</code>。</p>
+<p>模板当前的 UI authoring pattern 与 L3 验收标准记录在：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>internal_docs/reference/toolbox_ui_kit_for_tool_authors_zh.md
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>internal_docs/reference/core_tool_l2_l3_acceptance_authoring_pattern_zh.md
+</code></pre></div>
+<p>也可以直接用 Stage-2 脚手架生成新 UI capability package：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="n">python</span> <span class="n">scripts</span><span class="p">/</span><span class="n">scaffold_capability_package</span><span class="p">.</span><span class="n">py</span> <span class="p">-</span><span class="n">-template</span> <span class="n">ui_tool</span> <span class="p">-</span><span class="n">-id</span> <span class="n">my_tool</span> <span class="p">-</span><span class="n">-name</span> <span class="s2">&quot;My Tool&quot;</span> <span class="p">-</span><span class="n">-output</span> <span class="n">temp</span><span class="p">/</span><span class="n">my_tool</span>
+</code></pre></div>
+<p>脚手架会复制 <code>capability_package_ui_tool</code>，并替换 <code>tool_id</code>、显示名、class name、card id、manifest / contract 字段和 <code>scripts/*_ui.py</code> / <code>scripts/*_ops.py</code> 文件名。</p>
+<p>如果输出目录不在 Flux 仓库内，运行 review 前需要让 <code>floating_toolbox</code> 可被 Python 找到，例如：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="nv">$env:PYTHONPATH</span> <span class="p">=</span> <span class="s2">&quot;D:\Pycharm_Pro\MayaTool&quot;</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="n">python</span> <span class="n">temp</span><span class="p">/</span><span class="n">my_tool</span><span class="p">/</span><span class="n">scripts</span><span class="p">/</span><span class="n">run_capability_release</span><span class="p">.</span><span class="n">py</span> <span class="n">review</span> <span class="p">-</span><span class="n">-path</span> <span class="n">temp</span><span class="p">/</span><span class="n">my_tool</span>
+</code></pre></div>
+<p>本机 Maya smoke 包建议按需重新生成，不作为仓库资产提交。示例：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="nv">$root</span> <span class="p">=</span> <span class="s2">&quot;C:\Users\&lt;你自己的用户名&gt;\Documents\maya\prefs\floating_toolbox\test_packages&quot;</span>
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="n">python</span> <span class="n">scripts</span><span class="p">/</span><span class="n">scaffold_capability_package</span><span class="p">.</span><span class="n">py</span> <span class="p">-</span><span class="n">-template</span> <span class="n">ui_tool</span> <span class="p">-</span><span class="n">-id</span> <span class="n">maya_l3_ui_smoke_tool</span> <span class="p">-</span><span class="n">-name</span> <span class="s2">&quot;Maya L3 UI Smoke Tool&quot;</span> <span class="p">-</span><span class="n">-output</span> <span class="s2">&quot;$root\maya_l3_ui_smoke_tool&quot;</span> <span class="p">-</span><span class="n">-force</span>
+</code></pre></div>
+<p>然后在 Flux 的外部工具路径中添加父目录：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>C:\Users\&lt;你自己的用户名&gt;\Documents\maya\prefs\floating_toolbox\test_packages
+</code></pre></div>
+<p>该路径只适合作为当前机器的手动验收目录。换电脑时重新生成测试包，或把输出目录改成自己的同步工具库目录。</p>
+<h2 id="4">4. 当前正式生产工具样板<a class="headerlink" href="#4" title="Permanent link">&para;</a></h2>
+<p>当前正式内置生产工具集合固定为：</p>
+<ul>
+<li><code>custom_color</code></li>
+<li><code>controller_tools</code></li>
+<li><code>smart_joint</code></li>
+</ul>
+<p>它们的参考方式不同：</p>
+<ul>
+<li><code>custom_color</code>：生产完整度样板，适合参考完整 package、contract、cards、governance、dry-run 和资源组织。</li>
+<li><code>smart_joint</code>：轻量 FluxDialog 和标准反馈区样板，适合参考新 UI 工具结构。</li>
+<li><code>controller_tools</code>：大型 legacy UI 渐进迁移样板，不建议作为新工具 UI 模板直接复制。</li>
+</ul>
+<p>不要从旧 AI demo、历史已删除的 Pro demo、legacy examples 复制新工具结构。新 UI 工具也不要直接复制 <code>controller_tools</code> 的大型 legacy UI；优先复制 <code>capability_package_ui_tool</code>，再按 <code>custom_color</code> 或 <code>smart_joint</code> 补充真实生产细节。</p>
+<h2 id="5-tool_manifestjson">5. <code>tool_manifest.json</code><a class="headerlink" href="#5-tool_manifestjson" title="Permanent link">&para;</a></h2>
+<p><code>tool_manifest.json</code> 负责工具身份和加载入口。</p>
+<p>它通常声明：</p>
+<ul>
+<li><code>id</code></li>
+<li><code>name</code></li>
+<li><code>version</code></li>
+<li><code>author</code></li>
+<li><code>category</code></li>
+<li><code>entry_point</code></li>
+<li>Maya 版本兼容性</li>
+<li>Toolbox 版本兼容性</li>
+<li>upgrade / compatibility 元数据</li>
+</ul>
+<p>示例：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="p">{</span>
+<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a><span class="w">  </span><span class="nt">&quot;schema_version&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;tool_manifest.v1&quot;</span><span class="p">,</span>
+<a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a><span class="w">  </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;my_tool&quot;</span><span class="p">,</span>
+<a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="w">  </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;My Tool&quot;</span><span class="p">,</span>
+<a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a><span class="w">  </span><span class="nt">&quot;version&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;1.0.0&quot;</span><span class="p">,</span>
+<a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a><span class="w">  </span><span class="nt">&quot;author&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;someone&quot;</span><span class="p">,</span>
+<a id="__codelineno-9-7" name="__codelineno-9-7" href="#__codelineno-9-7"></a><span class="w">  </span><span class="nt">&quot;category&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Rigging&quot;</span><span class="p">,</span>
+<a id="__codelineno-9-8" name="__codelineno-9-8" href="#__codelineno-9-8"></a><span class="w">  </span><span class="nt">&quot;entry_point&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;tool.py&quot;</span><span class="p">,</span>
+<a id="__codelineno-9-9" name="__codelineno-9-9" href="#__codelineno-9-9"></a><span class="w">  </span><span class="nt">&quot;maya_versions&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-9-10" name="__codelineno-9-10" href="#__codelineno-9-10"></a><span class="w">    </span><span class="nt">&quot;min&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">2022</span><span class="p">,</span>
+<a id="__codelineno-9-11" name="__codelineno-9-11" href="#__codelineno-9-11"></a><span class="w">    </span><span class="nt">&quot;max&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">2026</span>
+<a id="__codelineno-9-12" name="__codelineno-9-12" href="#__codelineno-9-12"></a><span class="w">  </span><span class="p">},</span>
+<a id="__codelineno-9-13" name="__codelineno-9-13" href="#__codelineno-9-13"></a><span class="w">  </span><span class="nt">&quot;toolbox_versions&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span>
+<a id="__codelineno-9-14" name="__codelineno-9-14" href="#__codelineno-9-14"></a><span class="w">    </span><span class="nt">&quot;min&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;1.0.0&quot;</span>
+<a id="__codelineno-9-15" name="__codelineno-9-15" href="#__codelineno-9-15"></a><span class="w">  </span><span class="p">}</span>
+<a id="__codelineno-9-16" name="__codelineno-9-16" href="#__codelineno-9-16"></a><span class="p">}</span>
+</code></pre></div>
+<p><code>tool_manifest.json</code> 不定义执行协议。执行协议属于 <code>tool_contract.json</code>。</p>
+<h2 id="6-tool_contractjson">6. <code>tool_contract.json</code><a class="headerlink" href="#6-tool_contractjson" title="Permanent link">&para;</a></h2>
+<p><code>tool_contract.json</code> 是 Managed Capability 的执行协议真相源。</p>
+<p>它声明：</p>
+<ul>
+<li><code>tool_id</code></li>
+<li>schema version</li>
+<li>action 列表</li>
+<li>每个 action 的参数 schema</li>
+<li>risk / side effect 语义</li>
+<li>confirmation 策略</li>
+<li>dry-run 支持</li>
+<li>main-thread 要求</li>
+<li>selection policy</li>
+<li>returns 结构</li>
+</ul>
+<p>AI、Scheduler、Flow 和 ExecutionBroker 都应该围绕 package contract 理解工具能力。</p>
+<h2 id="7-toolpy">7. 入口文件 <code>tool.py</code><a class="headerlink" href="#7-toolpy" title="Permanent link">&para;</a></h2>
+<p>包式工具最终需要有一个可被加载器导入的入口文件。<code>ToolLoader</code> 会根据 manifest 的 <code>entry_point</code> 定位它。</p>
+<p>建议：</p>
+<ul>
+<li>顶层尽量不要 import Maya / Qt。</li>
+<li>Maya 操作放进 lazy execution branch 或 runtime helper。</li>
+<li>UI 打开使用明确 action，例如 <code>open_ui</code>。</li>
+<li>真实执行 action 与 UI action 分开。</li>
+<li>dry-run 分支不得触发真实 Maya 修改。</li>
+<li>返回结构化结果，失败时给出稳定 <code>error_code</code>。</li>
+</ul>
+<h2 id="8-broker">8. 执行入口为什么要接 Broker<a class="headerlink" href="#8-broker" title="Permanent link">&para;</a></h2>
+<p>Managed Capability 的正式执行入口是：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>floating_toolbox/execution/runtime/execution_broker.py
+</code></pre></div>
+<p>如果你的工具要接入 AI 调度、workflow cards、dry-run、确认门禁、side-effect policy 或审计，它必须对齐：</p>
+<ul>
+<li><code>tool_contract.json</code></li>
+<li><code>ExecutionRegistry</code></li>
+<li><code>ExecutionBroker</code></li>
+<li><code>ExecutionGovernancePolicy</code></li>
+</ul>
+<p>不要把关键写操作只绑定在 UI 点击回调上。</p>
+<h2 id="9">9. 能力包生命周期<a class="headerlink" href="#9" title="Permanent link">&para;</a></h2>
+<p>当前能力资产生命周期后端已经具备最小闭环：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>external package
+<a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>  -&gt; import
+<a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>  -&gt; validation
+<a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a>  -&gt; pending_review
+<a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a>  -&gt; approved / rejected
+<a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a>  -&gt; active
+<a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a>  -&gt; deprecated
+<a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a>  -&gt; retired
+</code></pre></div>
+<p>相关入口：</p>
+<ul>
+<li><code>floating_toolbox.import_capability_package(...)</code></li>
+<li><code>floating_toolbox.list_external_import_review_items(...)</code></li>
+<li><code>floating_toolbox.apply_external_import_review_decision(...)</code></li>
+<li><code>floating_toolbox.query_ai_execution_logs(...)</code></li>
+</ul>
+<p>后续 UI/CLI 产品入口仍会继续打磨，但工具包协议和应用层 UseCase 已经是当前主链路。</p>
+<h2 id="10">10. 外部工具目录怎么接<a class="headerlink" href="#10" title="Permanent link">&para;</a></h2>
+<p>如果你不想把工具直接放进仓库，可以：</p>
+<ol>
+<li>将包式工具目录放到外部路径</li>
+<li>在设置页的“工具路径”里添加该目录</li>
+<li>或通过 <code>FLUX_TOOL_PATHS</code> 环境变量提供路径</li>
+</ol>
+<p>这样工具盒会按外部包目录扫描。</p>
+<h2 id="11">11. 测试入口<a class="headerlink" href="#11" title="Permanent link">&para;</a></h2>
+<p>推荐使用统一脚本：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="n">powershell</span> <span class="n">-ExecutionPolicy</span> <span class="n">Bypass</span> <span class="o">-File</span> <span class="n">scripts</span><span class="p">/</span><span class="n">test</span><span class="p">.</span><span class="n">ps1</span>
+</code></pre></div>
+<p>默认会运行一组轻量守卫测试，覆盖架构文档同步、UI kit API、执行 Broker、ToolLoader hard-cut、能力状态、能力资产状态机等主链路。</p>
+<p>运行全部测试：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="n">powershell</span> <span class="n">-ExecutionPolicy</span> <span class="n">Bypass</span> <span class="o">-File</span> <span class="n">scripts</span><span class="p">/</span><span class="n">test</span><span class="p">.</span><span class="n">ps1</span> <span class="n">-All</span>
+</code></pre></div>
+<p>只运行架构/文档守卫：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="n">powershell</span> <span class="n">-ExecutionPolicy</span> <span class="n">Bypass</span> <span class="o">-File</span> <span class="n">scripts</span><span class="p">/</span><span class="n">test</span><span class="p">.</span><span class="n">ps1</span> <span class="n">-Architecture</span>
+</code></pre></div>
+<p>运行指定测试：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="n">powershell</span> <span class="n">-ExecutionPolicy</span> <span class="n">Bypass</span> <span class="o">-File</span> <span class="n">scripts</span><span class="p">/</span><span class="n">test</span><span class="p">.</span><span class="n">ps1</span> <span class="n">-Targets</span> <span class="n">floating_toolbox</span><span class="p">/</span><span class="n">tests</span><span class="p">/</span><span class="n">execution_broker_spec</span><span class="p">.</span><span class="n">py</span>
+</code></pre></div>
+<p>如果当前 shell 的 <code>python</code> 指向 Windows Store placeholder，请指定真实解释器：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="nv">$env:FLUX_TEST_PYTHON</span> <span class="p">=</span> <span class="s2">&quot;C:\Path\To\python.exe&quot;</span>
+<a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a><span class="n">powershell</span> <span class="n">-ExecutionPolicy</span> <span class="n">Bypass</span> <span class="o">-File</span> <span class="n">scripts</span><span class="p">/</span><span class="n">test</span><span class="p">.</span><span class="n">ps1</span>
+</code></pre></div>
+<p>需要 Maya runtime 时，使用 <code>mayapy.exe</code>：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="nv">$env:FLUX_TEST_PYTHON</span> <span class="p">=</span> <span class="s2">&quot;C:\Program Files\Autodesk\Maya2026\bin\mayapy.exe&quot;</span>
+<a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a><span class="n">powershell</span> <span class="n">-ExecutionPolicy</span> <span class="n">Bypass</span> <span class="o">-File</span> <span class="n">scripts</span><span class="p">/</span><span class="n">test</span><span class="p">.</span><span class="n">ps1</span>
+</code></pre></div>
+<p>脚本也支持直接传入解释器：</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="n">powershell</span> <span class="n">-ExecutionPolicy</span> <span class="n">Bypass</span> <span class="o">-File</span> <span class="n">scripts</span><span class="p">/</span><span class="n">test</span><span class="p">.</span><span class="n">ps1</span> <span class="n">-Python</span> <span class="s2">&quot;C:\Path\To\python.exe&quot;</span>
+</code></pre></div>
+<h2 id="12-internal_docs">12. 什么时候看 <code>internal_docs</code><a class="headerlink" href="#12-internal_docs" title="Permanent link">&para;</a></h2>
+<p>如果你只想加一个简单 Quick Tool，看本页通常就够了。</p>
+<p>如果你要做下面这些事情，需要继续看 <code>internal_docs</code>：</p>
+<ul>
+<li>接入完整 capability package</li>
+<li>对齐 contract / governance / cards 协议</li>
+<li>参与核心架构治理</li>
+<li>修改执行、AI、workflow 或 asset lifecycle 主链路</li>
+</ul>
+<p>当前最重要的内部文档：</p>
+<ul>
+<li><code>internal_docs/active/architecture_constitution_v1_zh.md</code></li>
+<li><code>internal_docs/active/toolbox_positioning_in_ai_era_zh.md</code></li>
+<li><code>internal_docs/active/status.md</code></li>
+<li><code>internal_docs/reference/core_tool_l2_l3_acceptance_authoring_pattern_zh.md</code></li>
+<li><code>internal_docs/reference/toolbox_capability_package_spec_v1_zh.md</code></li>
+<li><code>internal_docs/reference/toolbox_ui_kit_for_tool_authors_zh.md</code></li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  回到页面顶部
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "search.suggest", "search.highlight", "content.code.copy"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>
